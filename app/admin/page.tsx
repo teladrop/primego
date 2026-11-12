@@ -46,8 +46,8 @@ export default function AdminDashboard() {
         <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { href: "/admin/blog/new", label: "New Blog Post", icon: "✏️" },
+            { href: "/admin/projects/new", label: "New Project", icon: "🏗️" },
             { href: "/admin/hero", label: "Edit Hero", icon: "🖼️" },
-            { href: "/admin/images", label: "Section Images", icon: "🌄" },
             { href: "/admin/contacts", label: "View Inbox", icon: "📬" },
           ].map((a) => (
             <Link

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { projects } from "@/lib/data";
+import { projects as staticProjects } from "@/lib/data";
+import { getAdminProjects } from "@/lib/storage";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -10,6 +11,32 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
+  const adminProjects = getAdminProjects().filter((p) => p.published);
+
+  // Merge: admin first, then static
+  const allProjects = [
+    ...adminProjects.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      sector: p.sector,
+      location: p.location,
+      summary: p.summary,
+      outcome: p.outcome,
+      coverImage: p.coverImage,
+      isAdmin: true,
+    })),
+    ...staticProjects.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      sector: p.sector,
+      location: p.location,
+      summary: p.summary,
+      outcome: p.outcome,
+      coverImage: "/hero.jpg",
+      isAdmin: false,
+    })),
+  ];
+
   return (
     <>
       <PageHero
@@ -18,33 +45,36 @@ export default function ProjectsPage() {
         description="A sample of industrial cleaning, commercial cleaning, post-construction handover and facility programmes. Client names are withheld where they require it."
       />
       <section className="page-grid grid gap-8 py-20 lg:grid-cols-2">
-        {projects.map((project) => (
-          <article
+        {allProjects.map((project) => (
+          <Link
             key={project.slug}
-            className="overflow-hidden rounded-2xl border border-line"
+            href={`/projects/${project.slug}`}
+            className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-lg hover:border-orange/30"
           >
-            <div className="relative h-56">
-              <Image
-                src="/hero.jpg"
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+            <div className="relative h-56 overflow-hidden bg-slate-100">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={project.coverImage}
+                alt={project.title}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <div className="p-7">
               <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">
-                {project.sector} · {project.location}
+                {project.sector}{project.location ? ` · ${project.location}` : ""}
               </p>
-              <h2 className="mt-3 text-2xl font-bold text-navy-deep">
+              <h2 className="mt-3 text-2xl font-bold text-navy-deep group-hover:text-orange transition-colors">
                 {project.title}
               </h2>
-              <p className="mt-3 text-muted">{project.summary}</p>
+              <p className="mt-3 text-muted line-clamp-2">{project.summary}</p>
               <p className="mt-4 text-sm font-medium text-navy">
                 Outcome: {project.outcome}
               </p>
+              <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-orange">
+                View project <span aria-hidden>→</span>
+              </span>
             </div>
-          </article>
+          </Link>
         ))}
       </section>
     </>

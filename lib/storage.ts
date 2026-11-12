@@ -59,6 +59,22 @@ export type SectionImages = {
   "home-about": string;
 };
 
+export type AdminProject = {
+  id: string;
+  slug: string;
+  title: string;
+  sector: string;
+  location: string;
+  summary: string;
+  outcome: string;
+  description: string;       // rich paragraph body
+  images: string[];           // base64 data URLs or /paths
+  coverImage: string;         // first image used as card thumbnail
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 // ── Posts ─────────────────────────────────────────────────────────────────────
 
 export function getPosts(): AdminPost[] {
@@ -137,4 +153,28 @@ export function getSectionImages(): SectionImages {
 
 export function saveSectionImages(images: SectionImages): void {
   writeJSON("section-images.json", images);
+}
+
+// ── Admin Projects ────────────────────────────────────────────────────────────
+
+export function getAdminProjects(): AdminProject[] {
+  return readJSON<AdminProject[]>("projects.json");
+}
+
+export function getAdminProject(id: string): AdminProject | undefined {
+  return getAdminProjects().find((p) => p.id === id);
+}
+
+export function getAdminProjectBySlug(slug: string): AdminProject | undefined {
+  return getAdminProjects().find((p) => p.slug === slug && p.published);
+}
+
+export function saveAdminProject(project: AdminProject): void {
+  const list = getAdminProjects().filter((p) => p.id !== project.id);
+  list.unshift(project);
+  writeJSON("projects.json", list);
+}
+
+export function deleteAdminProject(id: string): void {
+  writeJSON("projects.json", getAdminProjects().filter((p) => p.id !== id));
 }
