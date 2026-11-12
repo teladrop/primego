@@ -117,8 +117,8 @@ export function HeroSlidesManager({ initial }: { initial: HeroSlide[] }) {
 
       {/* Edit panel */}
       {editing && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-10">
-          <div className="w-full max-w-lg rounded-2xl border border-line bg-white p-8 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-6 sm:py-10">
+          <div className="w-full max-w-lg rounded-2xl border border-line bg-white p-5 shadow-xl sm:p-8">
             <h2 className="mb-6 text-lg font-bold text-navy-deep">
               {editing.id === "" ? "New Slide" : "Edit Slide"}
             </h2>
