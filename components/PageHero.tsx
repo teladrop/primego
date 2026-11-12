@@ -10,7 +10,7 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden bg-[#f6f8fb]">
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_70%_40%,rgba(244,122,31,0.12),transparent_55%)]" />
-      <div className="page-grid relative py-16 sm:py-20">
+      <div className="page-grid relative py-12 sm:py-16">
         <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">
           {eyebrow}
         </p>

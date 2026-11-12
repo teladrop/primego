@@ -63,7 +63,7 @@ const pillars = [
 export function HomeHero() {
   return (
     <section className="overflow-hidden bg-white">
-      <div className="relative lg:min-h-[600px]">
+      <div className="relative lg:min-h-[480px]">
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,720px)] lg:block">
           <Image
             src="/hero.jpg"
@@ -87,7 +87,7 @@ export function HomeHero() {
           </svg>
         </div>
 
-        <div className="page-grid relative z-10 flex min-h-[520px] items-center py-12 lg:min-h-[600px] lg:py-8">
+        <div className="page-grid relative z-10 flex min-h-[400px] items-center py-10 lg:min-h-[480px] lg:py-8">
           <div className="max-w-[560px]">
             <p className="mb-5 text-[12px] font-semibold tracking-[0.34em] text-slate-400 uppercase">
               Cleaning <span className="mx-1 text-orange">•</span> Facilities{" "}
@@ -124,7 +124,7 @@ export function HomeHero() {
         </div>
 
         <div className="page-grid pb-4 lg:hidden">
-          <div className="relative h-64 overflow-hidden rounded-[28px]">
+          <div className="relative h-52 overflow-hidden rounded-[28px]">
             <Image
               src="/hero.jpg"
               alt="Industrial process plant with yellow safety walkways"
