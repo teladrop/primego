@@ -93,7 +93,7 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,720px)] lg:block">
           <div className="relative h-full w-full overflow-hidden">
             {slides.map((slide, i) => (
-              slide.image.startsWith("data:") ? (
+              slide.image.startsWith("data:") || slide.image.startsWith("http") ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={slide.id}
@@ -177,7 +177,7 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         <div className="page-grid pb-4 lg:hidden">
           <div className="relative h-52 overflow-hidden rounded-[28px]">
             {slides.map((slide, i) => (
-              slide.image.startsWith("data:") ? (
+              slide.image.startsWith("data:") || slide.image.startsWith("http") ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={slide.id}
