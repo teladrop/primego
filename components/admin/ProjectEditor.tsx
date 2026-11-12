@@ -39,7 +39,15 @@ export function ProjectEditor({ initial = {}, mode }: Props) {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (!res.ok) { setError("Failed to save"); return; }
+    if (!res.ok) {
+      let msg = "Failed to save";
+      try {
+        const err = await res.json();
+        msg = err.error ?? msg;
+      } catch { /* ignore */ }
+      setError(`${msg} (status ${res.status})`);
+      return;
+    }
     router.push("/admin/projects");
     router.refresh();
   }

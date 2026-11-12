@@ -32,9 +32,26 @@ export function ImageUploader({ value, onChange, label = "Image" }: Props) {
     setUploading(true);
     const reader = new FileReader();
     reader.onload = (e) => {
-      setUploading(false);
-      const dataUrl = e.target?.result as string;
-      if (dataUrl) onChange(dataUrl);
+      const src = e.target?.result as string;
+      const img = new window.Image();
+      img.onload = () => {
+        const MAX_DIM = 1400;
+        let { width, height } = img;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) { height = Math.round((height * MAX_DIM) / width); width = MAX_DIM; }
+          else { width = Math.round((width * MAX_DIM) / height); height = MAX_DIM; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { setUploading(false); onChange(src); return; }
+        ctx.drawImage(img, 0, 0, width, height);
+        setUploading(false);
+        onChange(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = () => { setUploading(false); onChange(src); };
+      img.src = src;
     };
     reader.onerror = () => {
       setUploading(false);
