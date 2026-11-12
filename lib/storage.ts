@@ -126,14 +126,19 @@ export async function getSectionImages(): Promise<SectionImages> {
     .select("*")
     .eq("id", SECTION_ROW_ID)
     .single();
-  return (data ?? { about: "/hero.jpg", projects: "/hero.jpg", home_about: "/hero.jpg" }) as SectionImages;
+  if (!data) return { about: "/hero.jpg", projects: "/hero.jpg", home_about: "/hero.jpg" };
+  // Strip the id field — only return the image fields
+  const { id: _id, ...images } = data;
+  return images as SectionImages;
 }
 
-export async function saveSectionImages(images: Omit<SectionImages, "id">): Promise<void> {
+export async function saveSectionImages(images: SectionImages): Promise<void> {
   const sb = getSupabaseServer();
+  // Strip any id that may have been carried over from the client
+  const { id: _id, ...clean } = images as Record<string, unknown>;
   const { error } = await sb
     .from("section_images")
-    .upsert({ id: SECTION_ROW_ID, ...images }, { onConflict: "id" });
+    .upsert({ id: SECTION_ROW_ID, ...clean }, { onConflict: "id" });
   if (error) console.error("saveSectionImages:", error.message);
 }
 

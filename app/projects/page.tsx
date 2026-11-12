@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { projects as staticProjects } from "@/lib/data";
 import { getAdminProjects } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
@@ -12,21 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const adminProjects = await getAdminProjects();
-  const published = adminProjects.filter((p) => p.published);
-
-  const allProjects = [
-    ...published.map((p) => ({
-      slug: p.slug, title: p.title, sector: p.sector,
-      location: p.location, summary: p.summary, outcome: p.outcome,
-      coverImage: p.cover_image,
-    })),
-    ...staticProjects.map((p) => ({
-      slug: p.slug, title: p.title, sector: p.sector,
-      location: p.location, summary: p.summary, outcome: p.outcome,
-      coverImage: "/hero.jpg",
-    })),
-  ];
+  const allProjects = (await getAdminProjects()).filter((p) => p.published);
 
   return (
     <>
@@ -40,7 +25,7 @@ export default async function ProjectsPage() {
           <Link key={project.slug} href={`/projects/${project.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-lg hover:border-orange/30">
             <div className="relative h-56 overflow-hidden bg-slate-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={project.coverImage} alt={project.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={project.cover_image} alt={project.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
             <div className="p-7">
               <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{project.sector}{project.location ? ` · ${project.location}` : ""}</p>

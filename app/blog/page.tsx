@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { posts as staticPosts } from "@/lib/data";
 import { getPosts } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
@@ -13,21 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const adminPosts = await getPosts();
-  const published = adminPosts.filter((p) => p.published);
-
-  const allPosts = [
-    ...published.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      excerpt: p.excerpt,
-      date: p.date,
-      category: p.category,
-      readTime: p.read_time,
-      image: p.image,
-    })),
-    ...staticPosts,
-  ];
+  const allPosts = (await getPosts()).filter((p) => p.published);
 
   return (
     <>
@@ -50,7 +35,7 @@ export default async function BlogPage() {
               </div>
             </Link>
             <div className="p-8">
-              <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{post.category} · {post.date} · {post.readTime}</p>
+              <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{post.category} · {post.date} · {post.read_time}</p>
               <h2 className="mt-3 text-2xl font-bold text-navy-deep"><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2>
               <p className="mt-3 text-muted">{post.excerpt}</p>
               <Link href={`/blog/${post.slug}`} className="mt-5 inline-flex font-semibold text-orange">Read article →</Link>

@@ -15,19 +15,28 @@ export function SectionImagesEditor({ initial }: { initial: SectionImages }) {
   const router = useRouter();
   const [images, setImages] = useState(initial);
   const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
 
   function update(key: keyof SectionImages, url: string) {
     setImages((prev) => ({ ...prev, [key]: url }));
+    setSaved(false);
   }
 
   async function save() {
     setSaving(true);
-    await fetch("/api/admin/section-images", {
+    setError("");
+    const res = await fetch("/api/admin/section-images", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(images),
     });
     setSaving(false);
+    if (!res.ok) {
+      setError("Failed to save — check Supabase connection");
+      return;
+    }
+    setSaved(true);
     router.refresh();
   }
 
@@ -54,6 +63,8 @@ export function SectionImagesEditor({ initial }: { initial: SectionImages }) {
       >
         {saving ? "Saving…" : "Save changes"}
       </button>
+      {saved && <span className="ml-3 text-sm text-green-600">✓ Saved</span>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }

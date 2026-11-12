@@ -30,6 +30,7 @@ export function ImageUploader({ value, onChange, label = "Image" }: Props) {
     }
 
     setUploading(true);
+    setError("");
     const form = new FormData();
     form.append("file", file);
     const res = await fetch("/api/admin/upload", { method: "POST", body: form });
@@ -38,7 +39,7 @@ export function ImageUploader({ value, onChange, label = "Image" }: Props) {
     if (!res.ok) {
       let msg = "Upload failed";
       try { const err = await res.json(); msg = err.error ?? msg; } catch { /* */ }
-      setError(msg);
+      setError(`${msg} (status ${res.status})`);
       return;
     }
 
