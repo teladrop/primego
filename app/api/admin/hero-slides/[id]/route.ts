@@ -8,14 +8,13 @@ export async function PUT(
 ) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
   const { id } = await params;
-  const existing = getHeroSlides().find((s) => s.id === id);
+  const slides = await getHeroSlides();
+  const existing = slides.find((s) => s.id === id);
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
   const body = await req.json();
   const updated = { ...existing, ...body, id };
-  saveHeroSlide(updated);
+  await saveHeroSlide(updated);
   return NextResponse.json(updated);
 }
 
@@ -26,6 +25,6 @@ export async function DELETE(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  deleteHeroSlide(id);
+  await deleteHeroSlide(id);
   return NextResponse.json({ ok: true });
 }

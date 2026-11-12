@@ -4,39 +4,27 @@ import { PageHero } from "@/components/PageHero";
 import { projects as staticProjects } from "@/lib/data";
 import { getAdminProjects } from "@/lib/storage";
 
-// Always render fresh so admin changes reflect immediately
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description:
-    "Selected PrimeGo work across industrial facilities, commercial properties, construction handover and institutions.",
+  description: "Selected PrimeGo work across industrial facilities, commercial properties, construction handover and institutions.",
 };
 
-export default function ProjectsPage() {
-  const adminProjects = getAdminProjects().filter((p) => p.published);
+export default async function ProjectsPage() {
+  const adminProjects = await getAdminProjects();
+  const published = adminProjects.filter((p) => p.published);
 
-  // Merge: admin first, then static
   const allProjects = [
-    ...adminProjects.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      sector: p.sector,
-      location: p.location,
-      summary: p.summary,
-      outcome: p.outcome,
-      coverImage: p.coverImage,
-      isAdmin: true,
+    ...published.map((p) => ({
+      slug: p.slug, title: p.title, sector: p.sector,
+      location: p.location, summary: p.summary, outcome: p.outcome,
+      coverImage: p.cover_image,
     })),
     ...staticProjects.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      sector: p.sector,
-      location: p.location,
-      summary: p.summary,
-      outcome: p.outcome,
+      slug: p.slug, title: p.title, sector: p.sector,
+      location: p.location, summary: p.summary, outcome: p.outcome,
       coverImage: "/hero.jpg",
-      isAdmin: false,
     })),
   ];
 
@@ -45,37 +33,21 @@ export default function ProjectsPage() {
       <PageHero
         eyebrow="Projects"
         title="Facilities we help keep clean, safe and well managed."
-        description="A sample of industrial cleaning, commercial cleaning, post-construction handover and facility programmes. Client names are withheld where they require it."
+        description="A sample of industrial cleaning, commercial cleaning, post-construction handover and facility programmes."
       />
       <section className="page-grid grid gap-8 py-20 lg:grid-cols-2">
         {allProjects.map((project) => (
-          <Link
-            key={project.slug}
-            href={`/projects/${project.slug}`}
-            className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-lg hover:border-orange/30"
-          >
+          <Link key={project.slug} href={`/projects/${project.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-lg hover:border-orange/30">
             <div className="relative h-56 overflow-hidden bg-slate-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={project.coverImage}
-                alt={project.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+              <img src={project.coverImage} alt={project.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
             <div className="p-7">
-              <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">
-                {project.sector}{project.location ? ` · ${project.location}` : ""}
-              </p>
-              <h2 className="mt-3 text-2xl font-bold text-navy-deep group-hover:text-orange transition-colors">
-                {project.title}
-              </h2>
+              <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{project.sector}{project.location ? ` · ${project.location}` : ""}</p>
+              <h2 className="mt-3 text-2xl font-bold text-navy-deep group-hover:text-orange transition-colors">{project.title}</h2>
               <p className="mt-3 text-muted line-clamp-2">{project.summary}</p>
-              <p className="mt-4 text-sm font-medium text-navy">
-                Outcome: {project.outcome}
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-orange">
-                View project <span aria-hidden>→</span>
-              </span>
+              <p className="mt-4 text-sm font-medium text-navy">Outcome: {project.outcome}</p>
+              <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-orange">View project →</span>
             </div>
           </Link>
         ))}

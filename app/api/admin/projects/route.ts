@@ -4,16 +4,13 @@ import { getAdminProjects, saveAdminProject, type AdminProject } from "@/lib/sto
 import { randomUUID } from "crypto";
 
 function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  return NextResponse.json(getAdminProjects());
+  return NextResponse.json(await getAdminProjects());
 }
 
 export async function POST(req: NextRequest) {
@@ -33,11 +30,11 @@ export async function POST(req: NextRequest) {
     outcome: body.outcome ?? "",
     description: body.description ?? "",
     images,
-    coverImage: images[0] ?? "/hero.jpg",
+    cover_image: images[0] ?? "/hero.jpg",
     published: body.published ?? false,
-    createdAt: now,
-    updatedAt: now,
+    created_at: now,
+    updated_at: now,
   };
-  saveAdminProject(project);
+  await saveAdminProject(project);
   return NextResponse.json(project, { status: 201 });
 }

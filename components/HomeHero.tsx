@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getHeroSlides, type HeroSlide } from "@/lib/storage";
+import type { HeroSlide } from "@/lib/storage";
 
 const pillars = [
   {

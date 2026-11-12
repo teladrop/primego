@@ -9,7 +9,7 @@ export async function GET(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(post);
 }
@@ -21,7 +21,7 @@ export async function PUT(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  const existing = getPost(id);
+  const existing = await getPost(id);
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const body = await req.json();
@@ -29,9 +29,10 @@ export async function PUT(
     ...existing,
     ...body,
     id,
-    updatedAt: new Date().toISOString(),
+    read_time: body.read_time ?? body.readTime ?? existing.read_time,
+    updated_at: new Date().toISOString(),
   };
-  savePost(updated);
+  await savePost(updated);
   return NextResponse.json(updated);
 }
 
@@ -42,6 +43,6 @@ export async function DELETE(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  deletePost(id);
+  await deletePost(id);
   return NextResponse.json({ ok: true });
 }

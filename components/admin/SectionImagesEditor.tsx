@@ -7,7 +7,7 @@ import type { SectionImages } from "@/lib/storage";
 
 const sections = [
   { key: "about" as const, label: "About page hero", desc: "Large image on /about" },
-  { key: "home-about" as const, label: "Home about section", desc: "Image in the about snippet on homepage" },
+  { key: "home_about" as const, label: "Home about section", desc: "Image in the about snippet on homepage" },
   { key: "projects" as const, label: "Projects placeholder", desc: "Fallback image for project cards (if no per-project images)" },
 ];
 

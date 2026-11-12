@@ -56,7 +56,7 @@ export function ContactInbox({ initial }: { initial: ContactSubmission[] }) {
             <p className="mt-0.5 truncate text-xs text-muted">{c.company}</p>
             <p className="mt-1 truncate text-xs text-slate-400">{c.need}</p>
             <time className="mt-1 block text-[10px] text-slate-300">
-              {new Date(c.receivedAt).toLocaleString()}
+              {new Date(c.received_at).toLocaleString()}
             </time>
           </button>
         ))}
@@ -83,7 +83,7 @@ export function ContactInbox({ initial }: { initial: ContactSubmission[] }) {
               { label: "Email", value: selected.email },
               { label: "Phone", value: selected.phone },
               { label: "Need", value: selected.need },
-              { label: "Received", value: new Date(selected.receivedAt).toLocaleString() },
+              { label: "Received", value: new Date(selected.received_at).toLocaleString() },
             ].map(({ label, value }) => (
               <div key={label}>
                 <dt className="text-xs font-semibold uppercase tracking-widest text-muted">{label}</dt>

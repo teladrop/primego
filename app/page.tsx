@@ -4,187 +4,113 @@ import { HomeHero } from "@/components/HomeHero";
 import { audiences, posts, projects, services, testimonials, values } from "@/lib/data";
 import { getHeroSlides } from "@/lib/storage";
 
-// Always render fresh so hero slides and admin changes reflect immediately
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const slides = getHeroSlides();
+export default async function Home() {
+  const slides = await getHeroSlides();
+
   return (
     <>
       <HomeHero slides={slides} />
 
+      {/* About snippet */}
       <section className="page-grid grid items-center gap-12 py-20 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[28px]">
-          <Image
-            src="/hero.jpg"
-            alt="PrimeGo supports industrial and commercial facilities"
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-          />
+          <Image src="/hero.jpg" alt="PrimeGo supports industrial and commercial facilities" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
         </div>
         <div>
-          <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-            About PrimeGo
-          </p>
-          <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-navy-deep">
-            Integrated industrial cleaning and facility management.
+          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">About PrimeGo</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">
+            Clean, safe, well-managed facilities — delivered reliably.
           </h2>
-          <p className="mt-5 text-lg leading-8 text-muted">
-            PrimeGo helps businesses, property owners and organisations
-            maintain clean, safe, functional and well-managed facilities. We
-            combine industrial cleaning, post-construction cleaning, commercial
-            cleaning, janitorial services and day-to-day facility management in
-            one accountable team.
-          </p>
-          <ul className="mt-6 grid gap-3 text-sm text-navy">
-            {values.map((item) => (
-              <li key={item.title} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange" />
-                <span>
-                  <strong>{item.title}.</strong> {item.description}
-                </span>
+          <ul className="mt-6 space-y-3">
+            {values.map((v) => (
+              <li key={v.title} className="flex items-start gap-3">
+                <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-orange" />
+                <div>
+                  <span className="font-semibold text-navy-deep">{v.title}: </span>
+                  <span className="text-muted">{v.description}</span>
+                </div>
               </li>
             ))}
           </ul>
-          <Link
-            href="/about"
-            className="mt-8 inline-flex items-center gap-2 font-semibold text-orange"
-          >
+          <Link href="/about" className="mt-8 inline-flex items-center gap-2 font-semibold text-orange">
             Read our story →
           </Link>
         </div>
       </section>
 
-      <section className="page-grid py-4 pb-20">
-        <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-          Who we serve
-        </p>
-        <h2 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight text-navy-deep">
-          Built for the facilities you actually run.
-        </h2>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {audiences.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-2xl border border-line p-7"
-            >
-              <h3 className="text-xl font-bold text-navy-deep">{item.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-muted">{item.summary}</p>
-            </article>
-          ))}
+      {/* Who we serve */}
+      <section className="bg-[#f6f8fb] py-20">
+        <div className="page-grid">
+          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">Who we work with</p>
+          <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">Built for facilities that need consistency.</h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {audiences.map((a) => (
+              <div key={a.title} className="rounded-2xl border border-line bg-white p-7">
+                <h3 className="font-bold text-navy-deep">{a.title}</h3>
+                <p className="mt-2 text-muted">{a.summary}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-[#f6f8fb]">
-        <div className="page-grid py-20">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-                Services
-              </p>
-              <h2 className="mt-3 max-w-xl text-4xl font-extrabold tracking-tight text-navy-deep">
-                Core services for every type of facility.
-              </h2>
-            </div>
-            <Link
-              href="/services"
-              className="font-semibold text-orange hover:text-orange-hot"
-            >
-              View all services →
-            </Link>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="group rounded-2xl border border-line bg-white p-7 transition hover:-translate-y-1 hover:border-orange/40 hover:shadow-lg"
-              >
-                <h3 className="text-xl font-bold text-navy-deep group-hover:text-orange">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-muted">
-                  {service.summary}
-                </p>
-                <span className="mt-6 inline-block text-sm font-semibold text-orange">
-                  Learn more →
-                </span>
+      {/* Services */}
+      <section className="py-20">
+        <div className="page-grid">
+          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">Services</p>
+          <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">Everything your facility needs, under one contract.</h2>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((s) => (
+              <Link key={s.slug} href={`/services/${s.slug}`} className="group rounded-2xl border border-line bg-white p-7 transition hover:border-orange/40 hover:shadow-md">
+                <h3 className="font-bold text-navy-deep group-hover:text-orange transition-colors">{s.title}</h3>
+                <p className="mt-2 text-sm text-muted">{s.summary}</p>
+                <span className="mt-4 inline-flex text-sm font-semibold text-orange">Service details →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="page-grid py-20">
-        <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-          Projects
-        </p>
-        <h2 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight text-navy-deep">
-          Work across factories, offices, new builds and institutions.
-        </h2>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project) => (
-            <article
-              key={project.slug}
-              className="overflow-hidden rounded-2xl border border-line bg-white"
-            >
-              <div className="relative h-48">
-                <Image
-                  src="/hero.jpg"
-                  alt=""
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="object-cover"
-                />
-                <span className="absolute top-4 left-4 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white">
-                  {project.sector}
-                </span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-navy-deep">
-                  {project.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted">{project.summary}</p>
-              </div>
-            </article>
-          ))}
+      {/* Projects */}
+      <section className="bg-[#f6f8fb] py-20">
+        <div className="page-grid">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">Projects</p>
+              <h2 className="max-w-xl text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">Work we're proud of.</h2>
+            </div>
+            <Link href="/projects" className="hidden font-semibold text-orange sm:block">View all →</Link>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.slice(0, 3).map((p) => (
+              <Link key={p.slug} href={`/projects/${p.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md">
+                <div className="relative h-44 overflow-hidden">
+                  <Image src="/hero.jpg" alt={p.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{p.sector} · {p.location}</p>
+                  <h3 className="mt-2 font-bold text-navy-deep">{p.title}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-        <Link
-          href="/projects"
-          className="mt-8 inline-flex font-semibold text-orange"
-        >
-          See all projects →
-        </Link>
       </section>
 
-      <section className="bg-[#f6f8fb]">
-        <div className="page-grid py-20">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-                Testimonials
-              </p>
-              <h2 className="mt-3 max-w-xl text-4xl font-extrabold tracking-tight text-navy-deep">
-                What clients say once the facility is in our care.
-              </h2>
-            </div>
-            <Link href="/testimonials" className="font-semibold text-orange">
-              All testimonials →
-            </Link>
-          </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {testimonials.slice(0, 3).map((item) => (
-              <blockquote
-                key={item.name}
-                className="rounded-2xl border border-line bg-white p-7"
-              >
-                <p className="text-navy-deep">&ldquo;{item.quote}&rdquo;</p>
-                <footer className="mt-6">
-                  <p className="font-semibold text-navy-deep">{item.name}</p>
-                  <p className="text-sm text-muted">
-                    {item.role}, {item.company}
-                  </p>
+      {/* Testimonials */}
+      <section className="py-20">
+        <div className="page-grid">
+          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">Testimonials</p>
+          <h2 className="max-w-xl text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">What clients say.</h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.slice(0, 3).map((t) => (
+              <blockquote key={t.name} className="rounded-2xl border border-line bg-white p-7">
+                <p className="text-muted">"{t.quote}"</p>
+                <footer className="mt-4">
+                  <p className="font-semibold text-navy-deep">{t.name}</p>
+                  <p className="text-xs text-muted">{t.role}, {t.company}</p>
                 </footer>
               </blockquote>
             ))}
@@ -192,59 +118,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="page-grid py-20">
-        <p className="text-xs font-semibold tracking-[0.32em] text-orange uppercase">
-          Blog
-        </p>
-        <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-navy-deep">
-          Practical notes on cleaning and facility management.
-        </h2>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {posts.slice(0, 3).map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="overflow-hidden rounded-2xl border border-line transition hover:border-orange/40"
-            >
-              <div className="relative h-44">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-7">
-                <p className="text-xs font-semibold tracking-wide text-orange uppercase">
-                  {post.category} · {post.readTime}
-                </p>
-                <h3 className="mt-3 text-xl font-bold text-navy-deep">
-                  {post.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-muted">{post.excerpt}</p>
-              </div>
-            </Link>
-          ))}
+      {/* Blog */}
+      <section className="bg-[#f6f8fb] py-20">
+        <div className="page-grid">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">Blog</p>
+              <h2 className="max-w-xl text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">Insights from the field.</h2>
+            </div>
+            <Link href="/blog" className="hidden font-semibold text-orange sm:block">View all →</Link>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.slice(0, 3).map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md">
+                <div className="relative h-44 overflow-hidden">
+                  <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{post.category}</p>
+                  <h3 className="mt-2 font-bold text-navy-deep">{post.title}</h3>
+                  <p className="mt-1 text-sm text-muted line-clamp-2">{post.excerpt}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-[#f6f8fb]">
-        <div className="page-grid flex flex-col items-start justify-between gap-8 py-16 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-3xl font-extrabold text-navy-deep sm:text-4xl">
-              Need a cleaner, safer, better-run facility?
-            </h2>
-            <p className="mt-3 max-w-xl text-muted">
-              Tell us about the building, the schedule and the standard you
-              need. PrimeGo will come back with a clear service plan.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="inline-flex rounded-full bg-orange px-7 py-3.5 font-semibold text-white hover:bg-orange-hot"
-          >
-            Get in Touch →
+      {/* CTA */}
+      <section className="bg-navy-deep py-20">
+        <div className="page-grid text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Need a cleaner, safer, better-run facility?</h2>
+          <p className="mx-auto mt-4 max-w-xl text-white/60">Talk to PrimeGo about industrial cleaning, facility management or a post-construction handover clean.</p>
+          <Link href="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-orange px-8 py-4 font-semibold text-white transition hover:bg-orange-hot">
+            Get in touch →
           </Link>
         </div>
       </section>

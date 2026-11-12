@@ -9,7 +9,7 @@ export async function PATCH(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  markContactRead(id);
+  await markContactRead(id);
   return NextResponse.json({ ok: true });
 }
 
@@ -20,6 +20,6 @@ export async function DELETE(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  deleteContact(id);
+  await deleteContact(id);
   return NextResponse.json({ ok: true });
 }

@@ -9,7 +9,7 @@ export async function GET(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  const project = getAdminProject(id);
+  const project = await getAdminProject(id);
   if (!project) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(project);
 }
@@ -21,7 +21,7 @@ export async function PUT(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  const existing = getAdminProject(id);
+  const existing = await getAdminProject(id);
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const body = await req.json();
@@ -31,10 +31,10 @@ export async function PUT(
     ...body,
     id,
     images,
-    coverImage: images[0] ?? existing.coverImage,
-    updatedAt: new Date().toISOString(),
+    cover_image: images[0] ?? existing.cover_image,
+    updated_at: new Date().toISOString(),
   };
-  saveAdminProject(updated);
+  await saveAdminProject(updated);
   return NextResponse.json(updated);
 }
 
@@ -45,6 +45,6 @@ export async function DELETE(
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await params;
-  deleteAdminProject(id);
+  await deleteAdminProject(id);
   return NextResponse.json({ ok: true });
 }

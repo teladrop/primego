@@ -18,7 +18,7 @@ export function BlogEditor({ initial = {}, mode }: Props) {
   const [title, setTitle] = useState(initial.title ?? "");
   const [excerpt, setExcerpt] = useState(initial.excerpt ?? "");
   const [category, setCategory] = useState(initial.category ?? "General");
-  const [readTime, setReadTime] = useState(initial.readTime ?? "5 min");
+  const [readTime, setReadTime] = useState(initial.read_time ?? "5 min");
   const [date, setDate] = useState(initial.date ?? "");
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function BlogEditor({ initial = {}, mode }: Props) {
       title,
       excerpt,
       category,
-      readTime,
+      read_time: readTime,
       date,
       image,
       body: body.split(/\n\n+/).map((p) => p.trim()).filter(Boolean),

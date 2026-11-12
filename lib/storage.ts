@@ -1,180 +1,179 @@
-import fs from "fs";
-import path from "path";
+import { getSupabaseServer } from "./supabase";
+import type {
+  AdminPost,
+  HeroSlide,
+  ContactSubmission,
+  SectionImages,
+  AdminProject,
+} from "./types";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-
-function readJSON<T>(filename: string): T {
-  const file = path.join(DATA_DIR, filename);
-  if (!fs.existsSync(file)) return [] as unknown as T;
-  return JSON.parse(fs.readFileSync(file, "utf-8")) as T;
-}
-
-function writeJSON<T>(filename: string, data: T): void {
-  const file = path.join(DATA_DIR, filename);
-  fs.writeFileSync(file, JSON.stringify(data, null, 2), "utf-8");
-}
-
-// ── Types ─────────────────────────────────────────────────────────────────────
-
-export type AdminPost = {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  category: string;
-  readTime: string;
-  image: string;
-  body: string[]; // array of paragraphs
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type HeroSlide = {
-  id: string;
-  image: string;
-  alt: string;
-  headline: string;
-  subtext: string;
-  cta: { label: string; href: string };
-  order: number;
-};
-
-export type ContactSubmission = {
-  id: string;
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  need: string;
-  message: string;
-  receivedAt: string;
-  read: boolean;
-};
-
-export type SectionImages = {
-  about: string;
-  projects: string;
-  "home-about": string;
-};
-
-export type AdminProject = {
-  id: string;
-  slug: string;
-  title: string;
-  sector: string;
-  location: string;
-  summary: string;
-  outcome: string;
-  description: string;       // rich paragraph body
-  images: string[];           // base64 data URLs or /paths
-  coverImage: string;         // first image used as card thumbnail
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
+// Re-export types so existing imports don't break
+export type { AdminPost, HeroSlide, ContactSubmission, SectionImages, AdminProject };
 
 // ── Posts ─────────────────────────────────────────────────────────────────────
 
-export function getPosts(): AdminPost[] {
-  return readJSON<AdminPost[]>("posts.json");
+export async function getPosts(): Promise<AdminPost[]> {
+  const sb = getSupabaseServer();
+  const { data, error } = await sb
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) { console.error("getPosts:", error.message); return []; }
+  return (data ?? []) as AdminPost[];
 }
 
-export function getPost(id: string): AdminPost | undefined {
-  return getPosts().find((p) => p.id === id);
+export async function getPost(id: string): Promise<AdminPost | undefined> {
+  const sb = getSupabaseServer();
+  const { data } = await sb.from("posts").select("*").eq("id", id).single();
+  return data ?? undefined;
 }
 
-export function getPostBySlug(slug: string): AdminPost | undefined {
-  return getPosts().find((p) => p.slug === slug && p.published);
+export async function getPostBySlug(slug: string): Promise<AdminPost | undefined> {
+  const sb = getSupabaseServer();
+  const { data } = await sb
+    .from("posts")
+    .select("*")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
+  return data ?? undefined;
 }
 
-export function savePost(post: AdminPost): void {
-  const posts = getPosts().filter((p) => p.id !== post.id);
-  posts.unshift(post);
-  writeJSON("posts.json", posts);
+export async function savePost(post: AdminPost): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("posts").upsert(post, { onConflict: "id" });
+  if (error) console.error("savePost:", error.message);
 }
 
-export function deletePost(id: string): void {
-  writeJSON("posts.json", getPosts().filter((p) => p.id !== id));
+export async function deletePost(id: string): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("posts").delete().eq("id", id);
+  if (error) console.error("deletePost:", error.message);
 }
 
 // ── Hero Slides ───────────────────────────────────────────────────────────────
 
-export function getHeroSlides(): HeroSlide[] {
-  return readJSON<HeroSlide[]>("hero-slides.json").sort(
-    (a, b) => a.order - b.order,
-  );
+export async function getHeroSlides(): Promise<HeroSlide[]> {
+  const sb = getSupabaseServer();
+  const { data, error } = await sb
+    .from("hero_slides")
+    .select("*")
+    .order("order", { ascending: true });
+  if (error) { console.error("getHeroSlides:", error.message); return []; }
+  return (data ?? []) as HeroSlide[];
 }
 
-export function saveHeroSlides(slides: HeroSlide[]): void {
-  writeJSON("hero-slides.json", slides);
+export async function saveHeroSlides(slides: HeroSlide[]): Promise<void> {
+  const sb = getSupabaseServer();
+  // Delete all and re-insert to handle full replacement
+  await sb.from("hero_slides").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  if (slides.length > 0) {
+    const { error } = await sb.from("hero_slides").insert(slides);
+    if (error) console.error("saveHeroSlides:", error.message);
+  }
 }
 
-export function saveHeroSlide(slide: HeroSlide): void {
-  const slides = getHeroSlides().filter((s) => s.id !== slide.id);
-  slides.push(slide);
-  slides.sort((a, b) => a.order - b.order);
-  writeJSON("hero-slides.json", slides);
+export async function saveHeroSlide(slide: HeroSlide): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("hero_slides").upsert(slide, { onConflict: "id" });
+  if (error) console.error("saveHeroSlide:", error.message);
 }
 
-export function deleteHeroSlide(id: string): void {
-  writeJSON("hero-slides.json", getHeroSlides().filter((s) => s.id !== id));
+export async function deleteHeroSlide(id: string): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("hero_slides").delete().eq("id", id);
+  if (error) console.error("deleteHeroSlide:", error.message);
 }
 
 // ── Contact submissions ───────────────────────────────────────────────────────
 
-export function getContacts(): ContactSubmission[] {
-  return readJSON<ContactSubmission[]>("contacts.json");
+export async function getContacts(): Promise<ContactSubmission[]> {
+  const sb = getSupabaseServer();
+  const { data, error } = await sb
+    .from("contacts")
+    .select("*")
+    .order("received_at", { ascending: false });
+  if (error) { console.error("getContacts:", error.message); return []; }
+  return (data ?? []) as ContactSubmission[];
 }
 
-export function saveContact(contact: ContactSubmission): void {
-  const contacts = getContacts();
-  contacts.unshift(contact);
-  writeJSON("contacts.json", contacts);
+export async function saveContact(contact: ContactSubmission): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("contacts").insert(contact);
+  if (error) console.error("saveContact:", error.message);
 }
 
-export function markContactRead(id: string): void {
-  const contacts = getContacts().map((c) =>
-    c.id === id ? { ...c, read: true } : c,
-  );
-  writeJSON("contacts.json", contacts);
+export async function markContactRead(id: string): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("contacts").update({ read: true }).eq("id", id);
+  if (error) console.error("markContactRead:", error.message);
 }
 
-export function deleteContact(id: string): void {
-  writeJSON("contacts.json", getContacts().filter((c) => c.id !== id));
+export async function deleteContact(id: string): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("contacts").delete().eq("id", id);
+  if (error) console.error("deleteContact:", error.message);
 }
 
-// ── Section images ────────────────────────────────────────────────────────────
+// ── Section Images ────────────────────────────────────────────────────────────
 
-export function getSectionImages(): SectionImages {
-  return readJSON<SectionImages>("section-images.json");
+const SECTION_ROW_ID = 1;
+
+export async function getSectionImages(): Promise<SectionImages> {
+  const sb = getSupabaseServer();
+  const { data } = await sb
+    .from("section_images")
+    .select("*")
+    .eq("id", SECTION_ROW_ID)
+    .single();
+  return (data ?? { about: "/hero.jpg", projects: "/hero.jpg", home_about: "/hero.jpg" }) as SectionImages;
 }
 
-export function saveSectionImages(images: SectionImages): void {
-  writeJSON("section-images.json", images);
+export async function saveSectionImages(images: Omit<SectionImages, "id">): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb
+    .from("section_images")
+    .upsert({ id: SECTION_ROW_ID, ...images }, { onConflict: "id" });
+  if (error) console.error("saveSectionImages:", error.message);
 }
 
 // ── Admin Projects ────────────────────────────────────────────────────────────
 
-export function getAdminProjects(): AdminProject[] {
-  return readJSON<AdminProject[]>("projects.json");
+export async function getAdminProjects(): Promise<AdminProject[]> {
+  const sb = getSupabaseServer();
+  const { data, error } = await sb
+    .from("projects")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) { console.error("getAdminProjects:", error.message); return []; }
+  return (data ?? []) as AdminProject[];
 }
 
-export function getAdminProject(id: string): AdminProject | undefined {
-  return getAdminProjects().find((p) => p.id === id);
+export async function getAdminProject(id: string): Promise<AdminProject | undefined> {
+  const sb = getSupabaseServer();
+  const { data } = await sb.from("projects").select("*").eq("id", id).single();
+  return data ?? undefined;
 }
 
-export function getAdminProjectBySlug(slug: string): AdminProject | undefined {
-  return getAdminProjects().find((p) => p.slug === slug && p.published);
+export async function getAdminProjectBySlug(slug: string): Promise<AdminProject | undefined> {
+  const sb = getSupabaseServer();
+  const { data } = await sb
+    .from("projects")
+    .select("*")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
+  return data ?? undefined;
 }
 
-export function saveAdminProject(project: AdminProject): void {
-  const list = getAdminProjects().filter((p) => p.id !== project.id);
-  list.unshift(project);
-  writeJSON("projects.json", list);
+export async function saveAdminProject(project: AdminProject): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("projects").upsert(project, { onConflict: "id" });
+  if (error) console.error("saveAdminProject:", error.message);
 }
 
-export function deleteAdminProject(id: string): void {
-  writeJSON("projects.json", getAdminProjects().filter((p) => p.id !== id));
+export async function deleteAdminProject(id: string): Promise<void> {
+  const sb = getSupabaseServer();
+  const { error } = await sb.from("projects").delete().eq("id", id);
+  if (error) console.error("deleteAdminProject:", error.message);
 }

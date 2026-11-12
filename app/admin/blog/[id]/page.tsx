@@ -3,15 +3,12 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { BlogEditor } from "@/components/admin/BlogEditor";
 import { getPost } from "@/lib/storage";
 
-export default async function EditPostPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const post = getPost(id);
-  if (!post) notFound();
+export const dynamic = "force-dynamic";
 
+export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const post = await getPost(id);
+  if (!post) notFound();
   return (
     <AdminShell>
       <div className="max-w-2xl">

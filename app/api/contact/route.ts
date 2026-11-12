@@ -20,10 +20,10 @@ export async function POST(req: NextRequest) {
     phone: body.phone,
     need: body.need ?? "General",
     message: body.message,
-    receivedAt: new Date().toISOString(),
+    received_at: new Date().toISOString(),
     read: false,
   };
 
-  saveContact(contact);
+  await saveContact(contact);
   return NextResponse.json({ ok: true }, { status: 201 });
 }

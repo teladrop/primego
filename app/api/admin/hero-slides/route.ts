@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  return NextResponse.json(getHeroSlides());
+  return NextResponse.json(await getHeroSlides());
 }
 
 export async function POST(req: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const slides = getHeroSlides();
+  const slides = await getHeroSlides();
   const slide: HeroSlide = {
     id: randomUUID(),
     image: body.image ?? "/hero.jpg",
@@ -24,17 +24,16 @@ export async function POST(req: NextRequest) {
     cta: body.cta ?? { label: "Explore Our Services", href: "/services" },
     order: slides.length,
   };
-  saveHeroSlide(slide);
+  await saveHeroSlide(slide);
   return NextResponse.json(slide, { status: 201 });
 }
 
-// PUT /api/admin/hero-slides — reorder (full array replacement)
+// PUT — full reorder
 export async function PUT(req: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
   const body: HeroSlide[] = await req.json();
   const reordered = body.map((s, i) => ({ ...s, order: i }));
-  saveHeroSlides(reordered);
+  await saveHeroSlides(reordered);
   return NextResponse.json(reordered);
 }
