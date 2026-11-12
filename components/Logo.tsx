@@ -13,7 +13,7 @@ export function Logo({
         alt="WestMark Industrial Services Ltd"
         width={220}
         height={60}
-        className={`h-12 w-auto object-contain ${variant === "light" ? "brightness-0 invert" : ""}`}
+        className={`h-16 w-auto object-contain ${variant === "light" ? "brightness-0 invert" : ""}`}
         priority
       />
     </Link>
