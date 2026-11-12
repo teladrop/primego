@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { projects as staticProjects } from "@/lib/data";
-import { getAdminProjectBySlug, getAdminProjects } from "@/lib/storage";
+import { getAdminProjectBySlug } from "@/lib/storage";
+
+// Dynamic so admin-created projects resolve at runtime
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
-  const adminSlugs = getAdminProjects()
-    .filter((p) => p.published)
-    .map((p) => ({ slug: p.slug }));
-  const staticSlugs = staticProjects.map((p) => ({ slug: p.slug }));
-  return [...adminSlugs, ...staticSlugs];
+  // Only pre-generate built-in static slugs; admin slugs handled at runtime
+  return staticProjects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({

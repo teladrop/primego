@@ -4,6 +4,9 @@ import { PageHero } from "@/components/PageHero";
 import { projects as staticProjects } from "@/lib/data";
 import { getAdminProjects } from "@/lib/storage";
 
+// Always render fresh so admin changes reflect immediately
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Projects",
   description:

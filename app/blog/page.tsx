@@ -5,6 +5,9 @@ import { PageHero } from "@/components/PageHero";
 import { posts as staticPosts } from "@/lib/data";
 import { getPosts } from "@/lib/storage";
 
+// Always render fresh so admin changes reflect immediately
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog",
   description:

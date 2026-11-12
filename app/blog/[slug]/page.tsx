@@ -4,14 +4,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { getPost as getStaticPost, posts } from "@/lib/data";
-import { getPostBySlug, getPosts } from "@/lib/storage";
+import { getPostBySlug } from "@/lib/storage";
+
+// Dynamic so admin-created posts resolve at runtime
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
-  const adminPosts = getPosts().filter((p) => p.published);
-  return [
-    ...posts.map((p) => ({ slug: p.slug })),
-    ...adminPosts.map((p) => ({ slug: p.slug })),
-  ];
+  // Only pre-generate static built-in slugs; admin slugs are handled at runtime
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -47,14 +47,19 @@ export default async function BlogPostPage({
       />
       <article className="page-grid max-w-3xl py-16">
         <div className="relative mb-10 h-72 overflow-hidden rounded-[28px] sm:h-96">
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 768px"
-            className="object-cover"
-            priority
-          />
+          {post.image.startsWith("data:") ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={post.image} alt={post.title} className="h-full w-full object-cover" />
+          ) : (
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+              priority
+            />
+          )}
         </div>
         {post.body.map((paragraph, i) => (
           <p key={i} className="mb-6 text-lg leading-8 text-muted">

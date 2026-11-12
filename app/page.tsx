@@ -4,6 +4,9 @@ import { HomeHero } from "@/components/HomeHero";
 import { audiences, posts, projects, services, testimonials, values } from "@/lib/data";
 import { getHeroSlides } from "@/lib/storage";
 
+// Always render fresh so hero slides and admin changes reflect immediately
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   const slides = getHeroSlides();
   return (

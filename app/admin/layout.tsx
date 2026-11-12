@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 // Admin pages are fully dynamic — no prerendering
-export const instant = false;
+export const dynamic = "force-dynamic";
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (
