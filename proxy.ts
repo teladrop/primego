@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
 
   // Only guard /admin routes — but not /admin/login itself
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
-    const token = req.cookies.get("pg_admin_token")?.value;
+    const token = req.cookies.get("wm_admin_token")?.value;
     if (!token) {
       return NextResponse.redirect(new URL("/admin/login", req.url));
     }
