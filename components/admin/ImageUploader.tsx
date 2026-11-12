@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
 
 interface Props {
@@ -9,45 +8,74 @@ interface Props {
   label?: string;
 }
 
+const MAX_MB = 2;
+
 export function ImageUploader({ value, onChange, label = "Image" }: Props) {
   const ref = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleFile(file: File) {
-    setUploading(true);
+  function handleFile(file: File) {
     setError("");
-    const form = new FormData();
-    form.append("file", file);
-    const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-    setUploading(false);
-    if (!res.ok) {
-      setError("Upload failed");
+
+    if (file.size > MAX_MB * 1024 * 1024) {
+      setError(`File too large — max ${MAX_MB} MB`);
       return;
     }
-    const { url } = await res.json();
-    onChange(url);
+
+    const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!allowed.includes(file.type)) {
+      setError("Only JPG, PNG, WebP or GIF allowed");
+      return;
+    }
+
+    setUploading(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUploading(false);
+      const dataUrl = e.target?.result as string;
+      if (dataUrl) onChange(dataUrl);
+    };
+    reader.onerror = () => {
+      setUploading(false);
+      setError("Failed to read file");
+    };
+    reader.readAsDataURL(file);
   }
+
+  // Decide how to render preview: data URLs and relative paths both work with <img>
+  const isPreviewable = value && (
+    value.startsWith("data:") ||
+    value.startsWith("/") ||
+    value.startsWith("http")
+  );
 
   return (
     <div className="grid gap-2">
-      <label className="text-sm font-medium text-slate-700">{label}</label>
+      {label && (
+        <label className="text-sm font-medium text-slate-700">{label}</label>
+      )}
 
-      {value && (
-        <div className="relative h-40 w-full overflow-hidden rounded-xl border border-line bg-slate-100">
-          <Image src={value} alt="preview" fill className="object-cover" />
-        </div>
+      {isPreviewable && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={value}
+          alt="preview"
+          className="h-40 w-full rounded-xl border border-line bg-slate-100 object-cover"
+        />
       )}
 
       <div className="flex items-center gap-3">
         <input
           ref={ref}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0];
             if (f) handleFile(f);
+            // reset so same file can be re-selected
+            e.target.value = "";
           }}
         />
         <button
@@ -56,18 +84,21 @@ export function ImageUploader({ value, onChange, label = "Image" }: Props) {
           disabled={uploading}
           className="rounded-lg border border-line bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition"
         >
-          {uploading ? "Uploading…" : "Upload image"}
+          {uploading ? "Reading…" : "Upload image"}
         </button>
         <span className="text-xs text-slate-400">or paste a URL below</span>
       </div>
 
       <input
         type="text"
-        value={value}
+        value={value.startsWith("data:") ? "" : value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="/hero.jpg or https://…"
         className="h-10 rounded-lg border border-line px-3 text-sm outline-none ring-orange/30 focus:ring-2"
       />
+      {value.startsWith("data:") && (
+        <p className="text-xs text-green-600">✓ Image uploaded</p>
+      )}
 
       {error && <p className="text-xs text-red-500">{error}</p>}
     </div>

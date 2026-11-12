@@ -93,17 +93,29 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,720px)] lg:block">
           <div className="relative h-full w-full overflow-hidden">
             {slides.map((slide, i) => (
-              <Image
-                key={slide.id}
-                src={slide.image}
-                alt={slide.alt}
-                fill
-                priority={i === 0}
-                sizes="(max-width: 1024px) 0vw, 52vw"
-                className={`object-cover object-center transition-opacity duration-700 ${
-                  i === current ? "opacity-100" : "opacity-0"
-                }`}
-              />
+              slide.image.startsWith("data:") ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={slide.id}
+                  src={slide.image}
+                  alt={slide.alt}
+                  className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+                    i === current ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ) : (
+                <Image
+                  key={slide.id}
+                  src={slide.image}
+                  alt={slide.alt}
+                  fill
+                  priority={i === 0}
+                  sizes="(max-width: 1024px) 0vw, 52vw"
+                  className={`object-cover object-center transition-opacity duration-700 ${
+                    i === current ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              )
             ))}
           </div>
           <svg
@@ -165,17 +177,29 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         <div className="page-grid pb-4 lg:hidden">
           <div className="relative h-52 overflow-hidden rounded-[28px]">
             {slides.map((slide, i) => (
-              <Image
-                key={slide.id}
-                src={slide.image}
-                alt={slide.alt}
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                className={`object-cover object-center transition-opacity duration-700 ${
-                  i === current ? "opacity-100" : "opacity-0"
-                }`}
-              />
+              slide.image.startsWith("data:") ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={slide.id}
+                  src={slide.image}
+                  alt={slide.alt}
+                  className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+                    i === current ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ) : (
+                <Image
+                  key={slide.id}
+                  src={slide.image}
+                  alt={slide.alt}
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  className={`object-cover object-center transition-opacity duration-700 ${
+                    i === current ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              )
             ))}
           </div>
         </div>
