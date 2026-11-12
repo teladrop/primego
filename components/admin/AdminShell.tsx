@@ -66,7 +66,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       >
         <div className="hidden border-b border-white/10 px-5 py-5 lg:block">
           <span className="text-lg font-extrabold tracking-tight">
-            Prime<span className="text-orange">Go</span>
+            West<span className="text-orange">Mark</span>
           </span>
           <p className="mt-0.5 text-[11px] text-white/40 uppercase tracking-widest">Admin</p>
         </div>
@@ -74,7 +74,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         {/* Mobile brand */}
         <div className="border-b border-white/10 px-5 py-5 lg:hidden">
           <span className="text-lg font-extrabold tracking-tight">
-            Prime<span className="text-orange">Go</span>
+            West<span className="text-orange">Mark</span>
           </span>
           <p className="mt-0.5 text-[11px] text-white/40 uppercase tracking-widest">Admin</p>
         </div>

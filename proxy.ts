@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SECRET ?? "primego-admin-secret-change-in-production",
+  process.env.ADMIN_SECRET ?? "westmark-admin-secret-change-in-production",
 );
 
 export async function proxy(req: NextRequest) {

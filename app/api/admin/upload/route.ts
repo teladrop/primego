@@ -3,7 +3,7 @@ import { getSession } from "@/lib/auth";
 import { getSupabaseServer } from "@/lib/supabase";
 import { randomUUID } from "crypto";
 
-const BUCKET = "primego-media";
+const BUCKET = "westmark-media";
 
 export async function POST(req: NextRequest) {
   const session = await getSession();

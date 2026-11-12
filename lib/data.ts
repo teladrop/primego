@@ -95,7 +95,7 @@ export const services: Service[] = [
     title: "Industrial Cleaning",
     summary: "Factory, warehouse and machinery-area cleaning.",
     description:
-      "PrimeGo cleans industrial environments where dust, grease, production waste and heavy traffic are part of the job. We work around operating hours so factories, warehouses and processing facilities stay safe, presentable and ready for the next shift.",
+      "WestMark cleans industrial environments where dust, grease, production waste and heavy traffic are part of the job. We work around operating hours so factories, warehouses and processing facilities stay safe, presentable and ready for the next shift.",
     points: [
       "Factory floors, production lines and walkways",
       "Warehouse aisles, loading bays and storage areas",
@@ -108,7 +108,7 @@ export const services: Service[] = [
     title: "Post-Construction Cleaning",
     summary: "Deep cleaning and property handover preparation.",
     description:
-      "When building work ends, PrimeGo prepares the property for inspection, snagging and handover. We remove construction dust, residue and debris so developers, contractors and property managers can present a finished space with confidence.",
+      "When building work ends, WestMark prepares the property for inspection, snagging and handover. We remove construction dust, residue and debris so developers, contractors and property managers can present a finished space with confidence.",
     points: [
       "First and final clean after construction or fit-out",
       "Dust, debris and residue removal from interiors",
@@ -121,7 +121,7 @@ export const services: Service[] = [
     title: "Commercial Cleaning",
     summary: "Offices, business premises and common areas.",
     description:
-      "We keep commercial properties looking professional for staff, visitors and customers. From office floors to shopping complexes, hotels and business premises, PrimeGo delivers a consistent standard across occupied spaces and shared areas.",
+      "We keep commercial properties looking professional for staff, visitors and customers. From office floors to shopping complexes, hotels and business premises, WestMark delivers a consistent standard across occupied spaces and shared areas.",
     points: [
       "Office floors, meeting rooms and receptions",
       "Shopping complexes and customer-facing areas",
@@ -134,7 +134,7 @@ export const services: Service[] = [
     title: "Facility Management",
     summary: "Day-to-day facility operations and maintenance coordination.",
     description:
-      "PrimeGo helps organisations run buildings, not only clean them. Our facility management support covers daily operations, vendor coordination and maintenance follow-up so property owners and managers have one accountable partner on site.",
+      "WestMark helps organisations run buildings, not only clean them. Our facility management support covers daily operations, vendor coordination and maintenance follow-up so property owners and managers have one accountable partner on site.",
     points: [
       "Day-to-day facility operations support",
       "Maintenance request and vendor coordination",
@@ -147,7 +147,7 @@ export const services: Service[] = [
     title: "Janitorial Services",
     summary: "Routine cleaning and workplace hygiene.",
     description:
-      "Routine cleaning is what staff and visitors notice every day. PrimeGo provides janitorial services that keep workplaces hygienic, stocked and dependable — from daily office rounds to washrooms, kitchens and shared facilities in larger institutions.",
+      "Routine cleaning is what staff and visitors notice every day. WestMark provides janitorial services that keep workplaces hygienic, stocked and dependable — from daily office rounds to washrooms, kitchens and shared facilities in larger institutions.",
     points: [
       "Daily and weekly cleaning schedules",
       "Washrooms, pantries and workplace hygiene",
@@ -210,14 +210,14 @@ export const projects: Project[] = [
     location: "Lagos",
     summary:
       "Day-to-day facility operations and maintenance coordination for a mixed office and services campus.",
-    outcome: "Cleaning, vendors and work orders sat with one PrimeGo account lead.",
+    outcome: "Cleaning, vendors and work orders sat with one WestMark account lead.",
   },
 ];
 
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "PrimeGo cleaned our factory and warehouse as one programme. Machinery areas, aisles and loading bays finally look like they belong to the same site.",
+      "WestMark cleaned our factory and warehouse as one programme. Machinery areas, aisles and loading bays finally look like they belong to the same site.",
     name: "Adewale Okon",
     role: "Operations Manager",
     company: "Atlantic Manufacturing",
@@ -245,7 +245,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Facility management used to mean chasing three contractors. PrimeGo coordinates cleaning and day-to-day operations under one lead.",
+      "Facility management used to mean chasing three contractors. WestMark coordinates cleaning and day-to-day operations under one lead.",
     name: "Ibrahim Lawal",
     role: "Property Manager",
     company: "Horizon Estates",
@@ -264,7 +264,7 @@ export const posts: Post[] = [
     slug: "industrial-cleaning-factories",
     title: "What industrial cleaning should cover in a factory or warehouse",
     excerpt:
-      "Floors, machinery areas and loading bays need a different plan from an office. Here is how PrimeGo scopes industrial cleaning.",
+      "Floors, machinery areas and loading bays need a different plan from an office. Here is how WestMark scopes industrial cleaning.",
     date: "12 October 2026",
     category: "Industrial cleaning",
     readTime: "6 min",
@@ -272,21 +272,21 @@ export const posts: Post[] = [
     body: [
       "A factory or warehouse is not a large office. Production dust, packaging waste, oil and forklift traffic build up in places that a generic cleaner will miss. Industrial cleaning has to name those areas and match the method to each one.",
       "Start with the production floor, walkways and machinery zones. Then add warehouses, loading bays and any processing rooms that affect safety or product quality. The plan should say when the work happens so operations are not surprised by a wet floor at peak hour.",
-      "The aim is a site that is safe to walk, easy to inspect and ready for the next shift. That is the standard PrimeGo holds on industrial facilities.",
+      "The aim is a site that is safe to walk, easy to inspect and ready for the next shift. That is the standard WestMark holds on industrial facilities.",
     ],
   },
   {
     slug: "facility-management-kpis",
     title: "Facility management that actually supports the building",
     excerpt:
-      "Cleaning alone does not run a facility. These are the day-to-day operations PrimeGo coordinates for property owners and managers.",
+      "Cleaning alone does not run a facility. These are the day-to-day operations WestMark coordinates for property owners and managers.",
     date: "28 September 2026",
     category: "Facility management",
     readTime: "5 min",
     image: "/blog/fm-kpis.jpg",
     body: [
       "Facility management is the work that sits around cleaning: who opens the building, who logs a leaking tap, who follows a vendor, and who reports back to the property owner.",
-      "PrimeGo treats that as a single service. We align cleaning rotas with how the building is used, coordinate maintenance requests and keep a simple record that managers can review.",
+      "WestMark treats that as a single service. We align cleaning rotas with how the building is used, coordinate maintenance requests and keep a simple record that managers can review.",
       "If the reception looks good but the washrooms, plant rooms and helpdesk are neglected, the facility is not being managed. The scorecard should cover the whole building, not only the visible floors.",
     ],
   },
@@ -301,7 +301,7 @@ export const posts: Post[] = [
     image: "/blog/confined-space.jpg",
     body: [
       "Construction dust settles on floors, frames, fittings and glass long after the trades leave. A handover clean has to remove that residue so the client sees the finished property, not the build.",
-      "PrimeGo typically works in stages: a first clean once major works are complete, then a final clean before inspection. That sequence gives contractors time to snag without presenting a dusty unit twice.",
+      "WestMark typically works in stages: a first clean once major works are complete, then a final clean before inspection. That sequence gives contractors time to snag without presenting a dusty unit twice.",
       "Property managers should ask for a clear scope — interiors, service areas, glass and floors — and a date that matches the walkthrough. That is how handover stays on the programme.",
     ],
   },
@@ -316,7 +316,7 @@ export const posts: Post[] = [
     image: "/blog/sustainable.jpg",
     body: [
       "Office buildings, shopping complexes, hotels and business premises share a simple requirement: they must look looked-after every day, not only when a director is visiting.",
-      "PrimeGo builds commercial cleaning around occupancy. Receptions, lifts, washrooms and common areas get more frequent attention. Quiet floors follow a lighter, still reliable, schedule.",
+      "WestMark builds commercial cleaning around occupancy. Receptions, lifts, washrooms and common areas get more frequent attention. Quiet floors follow a lighter, still reliable, schedule.",
       "The result should be the same standard from the street door to the last meeting room. That is what tenants and guests remember.",
     ],
   },
@@ -332,7 +332,7 @@ export const posts: Post[] = [
     body: [
       "Businesses, property owners and organisations often split cleaning and facility work because the sites look different: a factory, an office, a school, a new build. The result is four contractors and no single standard.",
       "Ask a partner to show how they would cover industrial cleaning, post-construction cleaning, commercial cleaning, facility management and janitorial services without handing you back a list of subcontractors.",
-      "Walk the site with them. A serious team will notice production areas, common spaces, handover risks and daily hygiene in the same visit. That is the test PrimeGo expects to pass.",
+      "Walk the site with them. A serious team will notice production areas, common spaces, handover risks and daily hygiene in the same visit. That is the test WestMark expects to pass.",
     ],
   },
 ];
@@ -377,7 +377,7 @@ export const jobs: Job[] = [
       "Log and follow maintenance and cleaning requests",
       "Align rotas with how each building is used",
       "Keep simple reports for property owners and managers",
-      "Be the on-site point of contact for PrimeGo services",
+      "Be the on-site point of contact for WestMark services",
     ],
   },
   {

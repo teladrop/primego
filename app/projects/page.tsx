@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Selected PrimeGo work across industrial facilities, commercial properties, construction handover and institutions.",
+  description: "Selected WestMark work across industrial facilities, commercial properties, construction handover and institutions.",
 };
 
 export default async function ProjectsPage() {

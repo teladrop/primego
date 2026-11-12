@@ -6,7 +6,7 @@ import { audiences, values } from "@/lib/data";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "PrimeGo helps businesses, property owners and organisations maintain clean, safe, functional and well-managed facilities.",
+    "WestMark helps businesses, property owners and organisations maintain clean, safe, functional and well-managed facilities.",
 };
 
 export default function AboutPage() {
@@ -15,14 +15,14 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About"
         title="Integrated industrial cleaning and facility management."
-        description="PrimeGo helps businesses, property owners and organisations maintain clean, safe, functional and well-managed facilities — from factories and offices to new builds, hospitals and schools."
+        description="WestMark helps businesses, property owners and organisations maintain clean, safe, functional and well-managed facilities — from factories and offices to new builds, hospitals and schools."
       />
 
       <section className="page-grid grid items-center gap-12 py-20 lg:grid-cols-2">
         <div className="relative min-h-[380px] overflow-hidden rounded-[28px]">
           <Image
             src="/hero.jpg"
-            alt="Facilities supported by PrimeGo"
+            alt="Facilities supported by WestMark"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
@@ -36,13 +36,13 @@ export default function AboutPage() {
             nobody owns the whole building.
           </p>
           <p>
-            PrimeGo brings those services together. We clean industrial
+            WestMark brings those services together. We clean industrial
             facilities, prepare properties after construction, maintain
             commercial premises, run janitorial programmes and coordinate
             day-to-day facility operations.
           </p>
           <p>
-            The name is simple. Prime is the standard we hold. Go is how we
+            The name is simple. West is the standard we hold. Mark is how we
             show up: on schedule, on the agreed scope, and ready for inspection.
           </p>
         </div>

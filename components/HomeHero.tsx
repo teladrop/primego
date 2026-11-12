@@ -80,7 +80,7 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
     id: "fallback",
     image: "/hero.jpg",
     alt: "Industrial process plant with yellow safety walkways",
-    headline: "PrimeGo Industrial Services Ltd",
+    headline: "WestMark Industrial Services Ltd",
     subtext: "Integrated industrial cleaning and facility management for clean, safe, functional and well-managed facilities.",
     cta: { label: "Explore Our Services", href: "/services" },
     order: 0,

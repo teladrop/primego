@@ -23,10 +23,10 @@ export default async function Home() {
       {/* About snippet */}
       <section className="page-grid grid items-center gap-12 py-20 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[28px]">
-          <Image src="/hero.jpg" alt="PrimeGo supports industrial and commercial facilities" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+          <Image src="/hero.jpg" alt="WestMark supports industrial and commercial facilities" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
         </div>
         <div>
-          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">About PrimeGo</p>
+          <p className="mb-4 text-xs font-semibold tracking-[0.32em] text-orange uppercase">About WestMark</p>
           <h2 className="text-3xl font-extrabold tracking-tight text-navy-deep sm:text-4xl">
             Clean, safe, well-managed facilities — delivered reliably.
           </h2>
@@ -162,7 +162,7 @@ export default async function Home() {
       <section className="bg-navy-deep py-20">
         <div className="page-grid text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Need a cleaner, safer, better-run facility?</h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/60">Talk to PrimeGo about industrial cleaning, facility management or a post-construction handover clean.</p>
+          <p className="mx-auto mt-4 max-w-xl text-white/60">Talk to WestMark about industrial cleaning, facility management or a post-construction handover clean.</p>
           <Link href="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-orange px-8 py-4 font-semibold text-white transition hover:bg-orange-hot">
             Get in touch →
           </Link>

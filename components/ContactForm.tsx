@@ -40,7 +40,7 @@ export function ContactForm() {
           Message received
         </p>
         <h2 className="mt-3 text-2xl font-bold text-navy-deep">
-          Thank you. A PrimeGo lead will come back to you shortly.
+          Thank you. A WestMark lead will come back to you shortly.
         </h2>
         <p className="mt-3 text-muted">
           For urgent site cover, call us and ask for the duty supervisor.

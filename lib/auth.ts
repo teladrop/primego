@@ -2,9 +2,9 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SECRET ?? "primego-admin-secret-change-in-production",
+  process.env.ADMIN_SECRET ?? "westmark-admin-secret-change-in-production",
 );
-const COOKIE = "pg_admin_token";
+const COOKIE = "wm_admin_token";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "primego2024";
 
 export async function signToken(payload: Record<string, unknown>) {

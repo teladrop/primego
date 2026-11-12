@@ -5,7 +5,7 @@ import { testimonials } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Testimonials",
   description:
-    "Feedback from operations, property and facilities leaders who work with PrimeGo on industrial, commercial and institutional sites.",
+    "Feedback from operations, property and facilities leaders who work with WestMark on industrial, commercial and institutional sites.",
 };
 
 export default function TestimonialsPage() {
@@ -14,7 +14,7 @@ export default function TestimonialsPage() {
       <PageHero
         eyebrow="Testimonials"
         title="Trusted by the people who run the building."
-        description="Comments from operations, property, project and facilities leads after PrimeGo has taken on cleaning and facility management."
+        description="Comments from operations, property, project and facilities leads after WestMark has taken on cleaning and facility management."
       />
       <section className="page-grid grid gap-6 py-20 md:grid-cols-2">
         {testimonials.map((item) => (

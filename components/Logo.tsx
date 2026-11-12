@@ -5,18 +5,18 @@ export function Logo({
 }: {
   variant?: "dark" | "light";
 }) {
-  const prime = variant === "light" ? "text-white" : "text-[#1E4B86]";
+  const west = variant === "light" ? "text-white" : "text-[#1E4B86]";
 
   return (
     <Link href="/" className="group flex items-center gap-3">
       <span className="relative leading-none">
         <span
-          className={`text-[28px] font-extrabold tracking-tight sm:text-[32px] ${prime}`}
+          className={`text-[28px] font-extrabold tracking-tight sm:text-[32px] ${west}`}
         >
-          Prime
+          West
         </span>
         <span className="relative text-[28px] font-extrabold tracking-tight text-orange sm:text-[32px]">
-          Go
+          Mark
           <svg
             className="absolute -top-1.5 left-[0.72em] h-3 w-3 text-orange"
             viewBox="0 0 12 12"

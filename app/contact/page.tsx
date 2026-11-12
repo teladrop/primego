@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact PrimeGo for industrial cleaning, post-construction cleaning, commercial cleaning, facility management and janitorial services.",
+    "Contact WestMark for industrial cleaning, post-construction cleaning, commercial cleaning, facility management and janitorial services.",
 };
 
 export default function ContactPage() {

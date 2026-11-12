@@ -6,7 +6,7 @@ import { jobs } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "Join PrimeGo in industrial cleaning, post-construction cleaning, facility management and janitorial services.",
+    "Join WestMark in industrial cleaning, post-construction cleaning, facility management and janitorial services.",
 };
 
 export default function CareersPage() {
@@ -15,7 +15,7 @@ export default function CareersPage() {
       <PageHero
         eyebrow="Careers"
         title="Work where the standard is visible."
-        description="PrimeGo hires people who take cleaning and facility management seriously — on factories, offices, construction handover and institutions."
+        description="WestMark hires people who take cleaning and facility management seriously — on factories, offices, construction handover and institutions."
       />
       <section className="page-grid py-20">
         <div className="grid gap-6">

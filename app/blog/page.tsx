@@ -19,7 +19,7 @@ export default async function BlogPage() {
       <PageHero
         eyebrow="Blog"
         title="Notes on cleaner, safer, better-run facilities."
-        description="Short operational pieces from PrimeGo supervisors and account leads on cleaning and facility management."
+        description="Short operational pieces from WestMark supervisors and account leads on cleaning and facility management."
       />
       <section className="page-grid grid gap-8 py-20 md:grid-cols-2">
         {allPosts.map((post) => (

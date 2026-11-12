@@ -31,7 +31,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <span className="text-3xl font-extrabold text-white tracking-tight">
-            Prime<span className="text-orange">Go</span>
+            West<span className="text-orange">Mark</span>
           </span>
           <p className="mt-1 text-sm text-white/40 uppercase tracking-widest">Admin Panel</p>
         </div>
