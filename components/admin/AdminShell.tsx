@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,14 +26,21 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     router.push("/admin/login");
   }
 
+  const Logo = () => (
+    <Image
+      src="/logo.png"
+      alt="WestMark Industrial Services Ltd"
+      width={180}
+      height={50}
+      className="h-10 w-auto brightness-0 invert"
+    />
+  );
+
   return (
     <div className="min-h-screen bg-[#f4f6fa]">
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-navy-deep px-4 py-3 lg:hidden">
-        <span className="text-lg font-extrabold tracking-tight text-white">
-          Prime<span className="text-orange">Go</span>
-          <span className="ml-2 text-[10px] text-white/40 uppercase tracking-widest">Admin</span>
-        </span>
+        <Logo />
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="rounded-lg p-2 text-white/80 hover:bg-white/10"
@@ -50,33 +58,19 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </button>
       </div>
 
-      {/* Mobile overlay drawer */}
+      {/* Mobile overlay */}
       {menuOpen && (
-        <div
-          className="fixed inset-0 z-20 bg-black/50 lg:hidden"
-          onClick={() => setMenuOpen(false)}
-        />
+        <div className="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={() => setMenuOpen(false)} />
       )}
 
-      {/* Sidebar — fixed on desktop, drawer on mobile */}
+      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-navy-deep text-white transition-transform duration-200 lg:translate-x-0 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="hidden border-b border-white/10 px-5 py-5 lg:block">
-          <span className="text-lg font-extrabold tracking-tight">
-            West<span className="text-orange">Mark</span>
-          </span>
-          <p className="mt-0.5 text-[11px] text-white/40 uppercase tracking-widest">Admin</p>
-        </div>
-
-        {/* Mobile brand */}
-        <div className="border-b border-white/10 px-5 py-5 lg:hidden">
-          <span className="text-lg font-extrabold tracking-tight">
-            West<span className="text-orange">Mark</span>
-          </span>
-          <p className="mt-0.5 text-[11px] text-white/40 uppercase tracking-widest">Admin</p>
+        <div className="flex items-center border-b border-white/10 px-5 py-4">
+          <Logo />
         </div>
 
         <nav className="flex-1 space-y-0.5 px-3 py-4">

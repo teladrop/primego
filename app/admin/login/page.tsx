@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
@@ -30,10 +31,14 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-navy-deep px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
-            West<span className="text-orange">Mark</span>
-          </span>
-          <p className="mt-1 text-sm text-white/40 uppercase tracking-widest">Admin Panel</p>
+          <Image
+            src="/logo.png"
+            alt="WestMark Industrial Services Ltd"
+            width={220}
+            height={60}
+            className="mx-auto h-14 w-auto brightness-0 invert"
+          />
+          <p className="mt-3 text-sm text-white/40 uppercase tracking-widest">Admin Panel</p>
         </div>
 
         <form
