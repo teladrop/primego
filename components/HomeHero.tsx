@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { getHeroSlides, type HeroSlide } from "@/lib/storage";
 
 const pillars = [
   {
@@ -60,19 +64,48 @@ const pillars = [
   },
 ];
 
-export function HomeHero() {
+export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
+  const [current, setCurrent] = useState(0);
+  const slides = initialSlides.length > 0 ? initialSlides : [];
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const activeSlide = slides[current] ?? {
+    id: "fallback",
+    image: "/hero.jpg",
+    alt: "Industrial process plant with yellow safety walkways",
+    headline: "PrimeGo Industrial Services Ltd",
+    subtext: "Integrated industrial cleaning and facility management for clean, safe, functional and well-managed facilities.",
+    cta: { label: "Explore Our Services", href: "/services" },
+    order: 0,
+  };
+
   return (
     <section className="overflow-hidden bg-white">
       <div className="relative lg:min-h-[480px]">
+        {/* Desktop image carousel with mask */}
         <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,720px)] lg:block">
-          <Image
-            src="/hero.jpg"
-            alt="Industrial process plant with yellow safety walkways"
-            fill
-            preload
-            sizes="(max-width: 1024px) 0vw, 52vw"
-            className="object-cover object-[18%_center]"
-          />
+          <div className="relative h-full w-full overflow-hidden">
+            {slides.map((slide, i) => (
+              <Image
+                key={slide.id}
+                src={slide.image}
+                alt={slide.alt}
+                fill
+                priority={i === 0}
+                sizes="(max-width: 1024px) 0vw, 52vw"
+                className={`object-cover object-center transition-opacity duration-700 ${
+                  i === current ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </div>
           <svg
             className="absolute inset-y-0 left-0 h-full w-[38%]"
             viewBox="0 0 220 800"
@@ -87,6 +120,7 @@ export function HomeHero() {
           </svg>
         </div>
 
+        {/* Text content */}
         <div className="page-grid relative z-10 flex min-h-[400px] items-center py-10 lg:min-h-[480px] lg:py-8">
           <div className="max-w-[560px]">
             <p className="mb-5 text-[12px] font-semibold tracking-[0.34em] text-slate-400 uppercase">
@@ -94,48 +128,60 @@ export function HomeHero() {
               <span className="mx-1 text-orange">•</span> Management
             </p>
             <h1 className="text-5xl leading-[0.95] font-extrabold tracking-tight text-[#163a62] sm:text-6xl lg:text-[64px]">
-              Prime
-              <span className="relative text-orange">
-                Go
-                <svg
-                  className="absolute top-1.5 left-[0.78em] hidden h-3.5 w-3.5 text-orange sm:block"
-                  viewBox="0 0 12 12"
-                  aria-hidden
-                >
-                  <path fill="currentColor" d="M6 0 12 10H0Z" />
-                </svg>
-              </span>
-              <span className="mt-1 block text-[2rem] sm:text-[2.6rem] lg:text-[48px]">
-                Industrial Services Ltd
+              <span className="transition-opacity duration-500">
+                {activeSlide.headline}
               </span>
             </h1>
-            <p className="mt-6 max-w-md text-lg leading-8 text-slate-500">
-              Integrated industrial cleaning and facility management
-              for clean, safe, functional and well-managed facilities.
+            <p className="mt-6 max-w-md text-lg leading-8 text-slate-500 transition-opacity duration-500">
+              {activeSlide.subtext}
             </p>
             <Link
-              href="/services"
+              href={activeSlide.cta.href}
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-orange px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_10px_24px_rgba(244,122,31,0.28)] transition hover:bg-orange-hot"
             >
-              Explore Our Services
+              {activeSlide.cta.label}
               <span aria-hidden>→</span>
             </Link>
+
+            {/* Carousel indicators */}
+            {slides.length > 1 && (
+              <div className="mt-6 flex gap-2">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrent(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === current ? "w-8 bg-orange" : "w-1.5 bg-slate-300"
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
+        {/* Mobile image carousel */}
         <div className="page-grid pb-4 lg:hidden">
           <div className="relative h-52 overflow-hidden rounded-[28px]">
-            <Image
-              src="/hero.jpg"
-              alt="Industrial process plant with yellow safety walkways"
-              fill
-              sizes="100vw"
-              className="object-cover object-[30%_center]"
-            />
+            {slides.map((slide, i) => (
+              <Image
+                key={slide.id}
+                src={slide.image}
+                alt={slide.alt}
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className={`object-cover object-center transition-opacity duration-700 ${
+                  i === current ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
 
+      {/* Pillars bar */}
       <div className="page-grid">
         <div className="grid grid-cols-2 gap-4 border-t border-line py-6 lg:grid-cols-4 lg:gap-0">
           {pillars.map((item, index) => (

@@ -1,0 +1,29 @@
+import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
+
+const SECRET = new TextEncoder().encode(
+  process.env.ADMIN_SECRET ?? "primego-admin-secret-change-in-production",
+);
+
+export async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // Only guard /admin routes — but not /admin/login itself
+  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+    const token = req.cookies.get("pg_admin_token")?.value;
+    if (!token) {
+      return NextResponse.redirect(new URL("/admin/login", req.url));
+    }
+    try {
+      await jwtVerify(token, SECRET);
+    } catch {
+      return NextResponse.redirect(new URL("/admin/login", req.url));
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/admin/:path*"],
+};

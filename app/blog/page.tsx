@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { posts } from "@/lib/data";
+import { posts as staticPosts } from "@/lib/data";
+import { getPosts } from "@/lib/storage";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -11,6 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
+  const adminPosts = getPosts().filter((p) => p.published);
+  const allPosts = [
+    ...adminPosts.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      date: p.date,
+      category: p.category,
+      readTime: p.readTime,
+      image: p.image,
+    })),
+    ...staticPosts,
+  ];
+
   return (
     <>
       <PageHero
@@ -19,7 +34,7 @@ export default function BlogPage() {
         description="Short operational pieces from PrimeGo supervisors and account leads on cleaning and facility management."
       />
       <section className="page-grid grid gap-8 py-20 md:grid-cols-2">
-        {posts.map((post) => (
+        {allPosts.map((post) => (
           <article
             key={post.slug}
             className="overflow-hidden rounded-2xl border border-line bg-white"

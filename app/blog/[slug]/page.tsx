@@ -3,10 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
-import { getPost, posts } from "@/lib/data";
+import { getPost as getStaticPost, posts } from "@/lib/data";
+import { getPostBySlug, getPosts } from "@/lib/storage";
 
 export async function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }));
+  const adminPosts = getPosts().filter((p) => p.published);
+  return [
+    ...posts.map((p) => ({ slug: p.slug })),
+    ...adminPosts.map((p) => ({ slug: p.slug })),
+  ];
 }
 
 export async function generateMetadata({
@@ -15,7 +20,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const adminPost = getPostBySlug(slug);
+  const staticPost = getStaticPost(slug);
+  const post = adminPost ?? staticPost;
   if (!post) return { title: "Article" };
   return { title: post.title, description: post.excerpt };
 }
@@ -26,7 +33,9 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const adminPost = getPostBySlug(slug);
+  const staticPost = getStaticPost(slug);
+  const post = adminPost ?? staticPost;
   if (!post) notFound();
 
   return (
@@ -44,11 +53,11 @@ export default async function BlogPostPage({
             fill
             sizes="(max-width: 768px) 100vw, 768px"
             className="object-cover"
-            preload
+            priority
           />
         </div>
-        {post.body.map((paragraph) => (
-          <p key={paragraph} className="mb-6 text-lg leading-8 text-muted">
+        {post.body.map((paragraph, i) => (
+          <p key={i} className="mb-6 text-lg leading-8 text-muted">
             {paragraph}
           </p>
         ))}

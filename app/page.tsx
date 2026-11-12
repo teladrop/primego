@@ -2,11 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { HomeHero } from "@/components/HomeHero";
 import { audiences, posts, projects, services, testimonials, values } from "@/lib/data";
+import { getHeroSlides } from "@/lib/storage";
 
 export default function Home() {
+  const slides = getHeroSlides();
   return (
     <>
-      <HomeHero />
+      <HomeHero slides={slides} />
 
       <section className="page-grid grid items-center gap-12 py-20 lg:grid-cols-2">
         <div className="relative min-h-[360px] overflow-hidden rounded-[28px]">

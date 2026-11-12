@@ -1,0 +1,20 @@
+[
+  {
+    "id": "slide-1",
+    "image": "/hero.jpg",
+    "alt": "Industrial process plant with yellow safety walkways",
+    "headline": "Clean. Safe. Well-Managed.",
+    "subtext": "Integrated industrial cleaning and facility management for facilities that cannot afford downtime.",
+    "cta": { "label": "Explore Our Services", "href": "/services" },
+    "order": 0
+  },
+  {
+    "id": "slide-2",
+    "image": "/hero-full.jpg",
+    "alt": "PrimeGo team at work on a facility",
+    "headline": "One Partner. Every Facility Need.",
+    "subtext": "From factory floors to commercial properties — PrimeGo delivers a consistent standard across every site.",
+    "cta": { "label": "View Our Projects", "href": "/projects" },
+    "order": 1
+  }
+]
