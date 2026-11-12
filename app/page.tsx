@@ -1,13 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HomeHero } from "@/components/HomeHero";
-import { audiences, posts, projects, services, testimonials, values } from "@/lib/data";
-import { getHeroSlides } from "@/lib/storage";
+import { audiences, services, testimonials, values } from "@/lib/data";
+import { getHeroSlides, getAdminProjects, getPosts } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const slides = await getHeroSlides();
+  const [slides, dbProjects, dbPosts] = await Promise.all([
+    getHeroSlides(),
+    getAdminProjects(),
+    getPosts(),
+  ]);
+
+  const publishedProjects = dbProjects.filter((p) => p.published).slice(0, 3);
+  const publishedPosts = dbPosts.filter((p) => p.published).slice(0, 3);
 
   return (
     <>
@@ -84,13 +91,14 @@ export default async function Home() {
             <Link href="/projects" className="hidden font-semibold text-orange sm:block">View all →</Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.slice(0, 3).map((p) => (
+            {publishedProjects.map((p) => (
               <Link key={p.slug} href={`/projects/${p.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md">
-                <div className="relative h-44 overflow-hidden">
-                  <Image src="/hero.jpg" alt={p.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="relative h-44 overflow-hidden bg-slate-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.cover_image || "/hero.jpg"} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="p-5">
-                  <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{p.sector} · {p.location}</p>
+                  <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{p.sector}{p.location ? ` · ${p.location}` : ""}</p>
                   <h3 className="mt-2 font-bold text-navy-deep">{p.title}</h3>
                 </div>
               </Link>
@@ -129,10 +137,15 @@ export default async function Home() {
             <Link href="/blog" className="hidden font-semibold text-orange sm:block">View all →</Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.slice(0, 3).map((post) => (
+            {publishedPosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md">
-                <div className="relative h-44 overflow-hidden">
-                  <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="relative h-44 overflow-hidden bg-slate-100">
+                  {post.image.startsWith("http") || post.image.startsWith("/") ? (
+                    <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  )}
                 </div>
                 <div className="p-5">
                   <p className="text-xs font-semibold tracking-[0.2em] text-orange uppercase">{post.category}</p>

@@ -8,6 +8,18 @@ export function ProjectGallery({ images }: { images: string[] }) {
 
   if (images.length === 0) return null;
 
+  function handleImgError(e: React.SyntheticEvent<HTMLImageElement>) {
+    e.currentTarget.style.display = "none";
+    const parent = e.currentTarget.parentElement;
+    if (parent) {
+      parent.style.background = "#e2e8f0";
+      parent.style.display = "flex";
+      parent.style.alignItems = "center";
+      parent.style.justifyContent = "center";
+      parent.innerHTML = '<span style="color:#94a3b8;font-size:14px">Image unavailable</span>';
+    }
+  }
+
   return (
     <>
       {/* Main image */}
@@ -20,6 +32,7 @@ export function ProjectGallery({ images }: { images: string[] }) {
           src={images[active]}
           alt={`Project image ${active + 1}`}
           className="h-full w-full object-cover transition-opacity duration-300"
+          onError={handleImgError}
         />
         {images.length > 1 && (
           <>
@@ -56,7 +69,7 @@ export function ProjectGallery({ images }: { images: string[] }) {
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={`Thumbnail ${i + 1}`} className="h-full w-full object-cover" />
+              <img src={src} alt={`Thumbnail ${i + 1}`} className="h-full w-full object-cover" onError={handleImgError} />
             </button>
           ))}
         </div>
@@ -81,6 +94,7 @@ export function ProjectGallery({ images }: { images: string[] }) {
             alt={`Project image ${active + 1}`}
             className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain"
             onClick={(e) => e.stopPropagation()}
+            onError={handleImgError}
           />
           <button
             onClick={(e) => { e.stopPropagation(); setActive((a) => (a + 1) % images.length); }}

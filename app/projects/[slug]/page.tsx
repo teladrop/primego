@@ -24,6 +24,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const project = await getAdminProjectBySlug(slug);
   if (!project) notFound();
 
+  // Filter out null/empty image URLs
+  const galleryImages = (project.images ?? []).filter((img) => img && img.trim() !== "");
+
   const bodyParagraphs = project.description
     ? project.description.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
     : [];
@@ -34,7 +37,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <article className="page-grid py-16">
         <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-12">
           <div>
-            {project.images.length > 0 && <ProjectGallery images={project.images} />}
+            {galleryImages.length > 0 && <ProjectGallery images={galleryImages} />}
             {bodyParagraphs.length > 0 && (
               <div className="mt-8 space-y-5">
                 {bodyParagraphs.map((para, i) => (
