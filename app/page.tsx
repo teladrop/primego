@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HomeHero } from "@/components/HomeHero";
+import { JsonLd } from "@/components/JsonLd";
 import { audiences, services, testimonials, values } from "@/lib/data";
 import { getHeroSlides, getAdminProjects, getPosts } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
+
+const BASE = "https://www.westmarkservicesltd.com";
 
 export default async function Home() {
   const [slides, dbProjects, dbPosts] = await Promise.all([
@@ -16,8 +19,30 @@ export default async function Home() {
   const publishedProjects = dbProjects.filter((p) => p.published).slice(0, 3);
   const publishedPosts = dbPosts.filter((p) => p.published).slice(0, 3);
 
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "WestMark Industrial Services Ltd",
+    url: BASE,
+    logo: `${BASE}/logo.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+234-809-441-2200",
+      contactType: "customer service",
+      areaServed: "NG",
+      availableLanguage: "English",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Lagos",
+      addressCountry: "NG",
+    },
+    sameAs: [],
+  };
+
   return (
     <>
+      <JsonLd data={orgSchema} />
       <HomeHero slides={slides} />
 
       {/* About snippet */}

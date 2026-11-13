@@ -3,9 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { getPostBySlug, getPosts } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
+
+const BASE = "https://www.westmarkservicesltd.com";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -16,7 +19,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Article" };
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: `${BASE}/blog/${post.slug}`,
+      images: [{ url: post.image.startsWith("http") ? post.image : `${BASE}${post.image}` }],
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at,
+      authors: ["WestMark Industrial Services Ltd"],
+      tags: [post.category],
+    },
+    alternates: { canonical: `${BASE}/blog/${post.slug}` },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -24,8 +42,34 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 
+  const imageUrl = post.image.startsWith("http") ? post.image : `${BASE}${post.image}`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: imageUrl,
+    datePublished: post.created_at,
+    dateModified: post.updated_at,
+    author: {
+      "@type": "Organization",
+      name: "WestMark Industrial Services Ltd",
+      url: BASE,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "WestMark Industrial Services Ltd",
+      logo: { "@type": "ImageObject", url: `${BASE}/logo.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE}/blog/${post.slug}` },
+    articleSection: post.category,
+    wordCount: post.body.join(" ").split(" ").length,
+  };
+
   return (
     <>
+      <JsonLd data={articleSchema} />
       <PageHero eyebrow={`${post.category} · ${post.date}`} title={post.title} description={post.excerpt} />
       <article className="page-grid max-w-3xl py-16">
         <div className="relative mb-10 h-72 overflow-hidden rounded-[28px] sm:h-96">

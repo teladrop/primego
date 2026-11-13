@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { getService, services } from "@/lib/data";
+
+const BASE = "https://www.westmarkservicesltd.com";
 
 export async function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -16,7 +19,16 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return { title: "Service" };
-  return { title: service.title, description: service.summary };
+  return {
+    title: service.title,
+    description: service.summary,
+    openGraph: {
+      title: service.title,
+      description: service.summary,
+      url: `${BASE}/services/${service.slug}`,
+    },
+    alternates: { canonical: `${BASE}/services/${service.slug}` },
+  };
 }
 
 export default async function ServiceDetailPage({
@@ -28,8 +40,24 @@ export default async function ServiceDetailPage({
   const service = getService(slug);
   if (!service) notFound();
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    provider: {
+      "@type": "Organization",
+      name: "WestMark Industrial Services Ltd",
+      url: BASE,
+    },
+    areaServed: { "@type": "Country", name: "Nigeria" },
+    serviceType: service.title,
+    url: `${BASE}/services/${service.slug}`,
+  };
+
   return (
     <>
+      <JsonLd data={serviceSchema} />
       <PageHero
         eyebrow="Services"
         title={service.title}
@@ -43,10 +71,7 @@ export default async function ServiceDetailPage({
           </h2>
           <ul className="mt-4 grid gap-3">
             {service.points.map((point) => (
-              <li
-                key={point}
-                className="rounded-xl border border-line px-4 py-3"
-              >
+              <li key={point} className="rounded-xl border border-line px-4 py-3">
                 {point}
               </li>
             ))}
