@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { CookieBanner } from "@/components/CookieBanner";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -73,10 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CookieBanner />
+        {children}
       </body>
     </html>
   );
