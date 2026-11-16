@@ -13,7 +13,13 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur">
       <div className="page-grid flex h-[78px] items-center justify-between gap-4">
-        <Logo variant="dark" />
+        <div className="flex items-center gap-3">
+          <Logo variant="dark" />
+          <span className="hidden items-center gap-1.5 sm:flex">
+            <span className="text-slate-300">|</span>
+            <span className="text-sm font-semibold text-orange tracking-wide">Services</span>
+          </span>
+        </div>
 
         <nav className="hidden items-center gap-7 lg:flex">
           {nav.map((item) => {
