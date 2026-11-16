@@ -8,7 +8,7 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-const BASE = "https://www.westmarkservicesltd.com";
+const BASE = "https://www.Visconservicesltd.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "post-construction cleaning",
     "commercial cleaning Nigeria",
     "janitorial services Lagos",
-    "WestMark Industrial Services",
+    "Viscon Industrial Services",
     "cleaning company Nigeria",
     "facility management company",
   ],

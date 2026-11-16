@@ -10,7 +10,7 @@ export function Logo({
     <Link href="/" className="inline-flex items-center">
       <Image
         src="/logo.png"
-        alt="WestMark Industrial Services Ltd"
+        alt="Viscon Industrial Services Ltd"
         width={220}
         height={60}
         className={`h-16 w-auto object-contain ${variant === "light" ? "brightness-0 invert" : ""}`}

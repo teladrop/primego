@@ -29,7 +29,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const Logo = () => (
     <Image
       src="/logo.png"
-      alt="WestMark Industrial Services Ltd"
+      alt="Viscon Industrial Services Ltd"
       width={180}
       height={50}
       className="h-10 w-auto brightness-0 invert"

@@ -5,7 +5,7 @@ import "../globals.css";
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WestMark Admin",
+  title: "Viscon Admin",
   robots: { index: false, follow: false },
 };
 

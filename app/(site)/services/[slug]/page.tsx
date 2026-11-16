@@ -5,7 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { JsonLd } from "@/components/JsonLd";
 import { getService, services } from "@/lib/data";
 
-const BASE = "https://www.westmarkservicesltd.com";
+const BASE = "https://www.visconservicesltd.com";
 
 export async function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -47,7 +47,7 @@ export default async function ServiceDetailPage({
     description: service.description,
     provider: {
       "@type": "Organization",
-      name: "WestMark Industrial Services Ltd",
+      name: "Viscon Industrial Services Ltd",
       url: BASE,
     },
     areaServed: { "@type": "Country", name: "Nigeria" },

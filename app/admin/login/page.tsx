@@ -33,7 +33,7 @@ export default function LoginPage() {
         <div className="mb-8 text-center">
           <Image
             src="/logo.png"
-            alt="WestMark Industrial Services Ltd"
+            alt="Viscon Industrial Services Ltd"
             width={220}
             height={60}
             className="mx-auto h-14 w-auto brightness-0 invert"

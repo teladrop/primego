@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SECRET ?? "westmark-admin-secret-change-in-production",
+  process.env.ADMIN_SECRET ?? "Viscon-admin-secret-change-in-production",
 );
 const COOKIE = "wm_admin_token";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "primego2024";

@@ -6,7 +6,7 @@ import { services } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "WestMark core services: industrial cleaning, post-construction cleaning, commercial cleaning, facility management and janitorial services.",
+    "Viscon core services: industrial cleaning, post-construction cleaning, commercial cleaning, facility management and janitorial services.",
 };
 
 export default function ServicesPage() {

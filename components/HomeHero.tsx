@@ -8,57 +8,53 @@ import type { HeroSlide } from "@/lib/storage";
 const pillars = [
   {
     title: "Safety First",
+    description: "Clean, organised workplaces that eliminate slip, trip and hygiene hazards before they occur.",
+    color: "border-orange",
+    iconBg: "bg-orange/10",
+    iconColor: "text-orange",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-        <path
-          d="M12 3 5 6v6c0 5 3.2 8.4 7 9.5 3.8-1.1 7-4.5 7-9.5V6l-7-3Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path
-          d="m8.8 12 2.1 2.1 4.3-4.4"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
+      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
+        <path d="M12 3 5 6v6c0 5 3.2 8.4 7 9.5 3.8-1.1 7-4.5 7-9.5V6l-7-3Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="m8.5 12 2.3 2.3 4.7-4.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
   {
     title: "Operational Excellence",
+    description: "Schedules, standards and reporting that keep every facility running to spec, every day.",
+    color: "border-navy",
+    iconBg: "bg-navy/10",
+    iconColor: "text-navy",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
-        <path
-          d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
+      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
+        <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     title: "Trusted Partner",
+    description: "One accountable team across industrial, commercial, handover and janitorial work.",
+    color: "border-orange",
+    iconBg: "bg-orange/10",
+    iconColor: "text-orange",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-        <path
-          d="M7 13.5 4.8 11a2.2 2.2 0 0 1 3.1-3.1L10 10m7-.5 2.2 2.2a2.2 2.2 0 1 1-3.1 3.1L14 13"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path d="M9 12.5h6" stroke="currentColor" strokeWidth="1.6" />
+      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
+        <path d="M17 11h2.5a1.5 1.5 0 0 1 0 3H17m0-3v3m0-3H9m8 0V8a2 2 0 0 0-2-2H9a4 4 0 0 0-4 4v5a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     title: "Sustainable Growth",
+    description: "Methods that protect buildings, equipment and the people who use them for the long term.",
+    color: "border-navy",
+    iconBg: "bg-navy/10",
+    iconColor: "text-navy",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-        <path d="M4 18V6m0 12h16" stroke="currentColor" strokeWidth="1.6" />
-        <path
-          d="m4 14 5-5 3.5 3.5L20 5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
+      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
+        <path d="M3 17 8 11l4 4 5-7 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M21 7v5h-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -80,7 +76,7 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
     id: "fallback",
     image: "/hero.jpg",
     alt: "Industrial process plant with yellow safety walkways",
-    headline: "WestMark Industrial Services Ltd",
+    headline: "Viscon Industrial Services Ltd",
     subtext: "Integrated industrial cleaning and facility management for clean, safe, functional and well-managed facilities.",
     cta: { label: "Explore Our Services", href: "/services" },
     order: 0,
@@ -205,18 +201,19 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         </div>
       </div>
 
-      {/* Pillars bar */}
+      {/* Pillars cards */}
       <div className="page-grid">
-        <div className="grid grid-cols-2 gap-4 border-t border-line py-6 lg:grid-cols-4 lg:gap-0">
-          {pillars.map((item, index) => (
+        <div className="grid grid-cols-2 gap-4 py-8 lg:grid-cols-4">
+          {pillars.map((item) => (
             <div
               key={item.title}
-              className={`flex items-center gap-3 text-slate-500 ${
-                index > 0 ? "lg:border-l lg:border-line lg:pl-8" : ""
-              }`}
+              className={`rounded-2xl border-t-4 ${item.color} bg-white px-5 py-6 shadow-sm`}
             >
-              <span className="text-[#7b8da3]">{item.icon}</span>
-              <span className="text-sm font-medium">{item.title}</span>
+              <div className={`mb-4 inline-flex rounded-xl ${item.iconBg} p-3 ${item.iconColor}`}>
+                {item.icon}
+              </div>
+              <h3 className="text-sm font-bold text-navy-deep">{item.title}</h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted">{item.description}</p>
             </div>
           ))}
         </div>

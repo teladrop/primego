@@ -8,7 +8,7 @@ import { getPostBySlug, getPosts } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
-const BASE = "https://www.westmarkservicesltd.com";
+const BASE = "https://www.visconservicesltd.com";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       images: [{ url: post.image.startsWith("http") ? post.image : `${BASE}${post.image}` }],
       publishedTime: post.created_at,
       modifiedTime: post.updated_at,
-      authors: ["WestMark Industrial Services Ltd"],
+      authors: ["Viscon Industrial Services Ltd"],
       tags: [post.category],
     },
     alternates: { canonical: `${BASE}/blog/${post.slug}` },
@@ -54,12 +54,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     dateModified: post.updated_at,
     author: {
       "@type": "Organization",
-      name: "WestMark Industrial Services Ltd",
+      name: "Viscon Industrial Services Ltd",
       url: BASE,
     },
     publisher: {
       "@type": "Organization",
-      name: "WestMark Industrial Services Ltd",
+      name: "Viscon Industrial Services Ltd",
       logo: { "@type": "ImageObject", url: `${BASE}/logo.png` },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE}/blog/${post.slug}` },
