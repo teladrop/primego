@@ -201,21 +201,22 @@ export function HomeHero({ slides: initialSlides }: { slides: HeroSlide[] }) {
         </div>
       </div>
 
-      {/* Pillars cards */}
-      <div className="page-grid">
-        <div className="grid grid-cols-2 gap-4 py-8 lg:grid-cols-4">
-          {pillars.map((item) => (
-            <div
-              key={item.title}
-              className={`rounded-2xl border-t-4 ${item.color} bg-white px-5 py-6 shadow-sm`}
-            >
-              <div className={`mb-4 inline-flex rounded-xl ${item.iconBg} p-3 ${item.iconColor}`}>
-                {item.icon}
+      {/* Pillars — horizontal strip */}
+      <div className="border-t border-line bg-white">
+        <div className="page-grid">
+          <div className="grid grid-cols-1 divide-y divide-line sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+            {pillars.map((item) => (
+              <div key={item.title} className="flex items-start gap-4 px-6 py-5 first:pl-0 last:pr-0">
+                <div className={`mt-0.5 flex-shrink-0 rounded-lg ${item.iconBg} ${item.iconColor} p-2.5`}>
+                  {item.icon}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-navy-deep">{item.title}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted">{item.description}</p>
+                </div>
               </div>
-              <h3 className="text-sm font-bold text-navy-deep">{item.title}</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted">{item.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
